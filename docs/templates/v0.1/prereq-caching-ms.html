@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Untitled :: Hazelcast Guides</title>
+    <link rel="canonical" href="https://hazelcast.org/templates/v0.1/prereq-caching-ms.html">
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://hazelcast.org">Hazelcast Guides</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="templates" data-version="v0.1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-explore is-active" data-panel="explore">
+  <div class="context">
+    <span class="title">Templates</span>
+    <span class="version">v0.1</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <span class="title">Hazelcast + SpringBoot</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../springboot-embedded/v0.1/index.html">v0.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Hazelcast Guides</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../guides-home/v0.1/index.html">v0.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Microprofile + Kubernetes</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../microprofile-kubernetes/v0.1/index.html">v0.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">SpringBoot + Kubernetes</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../springboot-kubernetes/v0.1/index.html">v0.1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <span class="title">Templates</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">v0.1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../guides-home/v0.1/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/adoc-templates/edit/antora-doc/modules/ROOT/pages/prereq-caching-ms.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before you begin, have the following tools installed:</p>
+</div>
+<div class="paragraph">
+<p>First, you will need Apache Maven to build and run the project.</p>
+</div>
+<div class="paragraph">
+<p>Also you will need a containerization software for building containers. {kube} supports a variety
+of container types. You will use <code>Docker</code> in this guide. For installation instructions, refer to the <a href="https://docs.docker.com/install/" target="_blank" rel="noopener">official Docker documentation</a>.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><span class="system"><strong>Windows</strong> | <strong>Mac</strong></span></p>
+</div>
+<div class="paragraph">
+<p>Use Docker Desktop, where a local {kube} environment is pre-installed and enabled. If you do not see the {kube} tab then you have an older version of Docker Desktop; upgrade to the latest version.</p>
+</div>
+<div class="paragraph">
+<p>Complete the setup for your operating system:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set up  <a href="https://docs.docker.com/docker-for-windows/#kubernetes" target="_blank" rel="noopener">Docker for Windows</a>.
+On the Docker for Windows <em>General Setting</em> page, ensure that the option <code>Expose daemon on
+tcp://localhost:2375 without TLS</code> is enabled. This is required by the <code>dockerfile-maven</code>
+part of the build.</p>
+</li>
+<li>
+<p>Set up <a href="https://docs.docker.com/docker-for-mac/#kubernetes" target="_blank" rel="noopener">Docker for Mac</a>.</p>
+</li>
+<li>
+<p>After following one of the sets of instructions, ensure that {kube} (not Swarm) is selected as the orchestrator in Docker Preferences.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="system"><strong>Linux</strong></span></p>
+</div>
+<div class="paragraph">
+<p>You will use <code>Minikube</code> as a single-node {kube} cluster that runs locally in a virtual machine.
+For Minikube installation instructions see the <a href="https://github.com/kubernetes/minikube#installation" target="_blank" rel="noopener">minikube installation instructions</a>. Make sure to pay attention to the requirements as they vary by platform.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
