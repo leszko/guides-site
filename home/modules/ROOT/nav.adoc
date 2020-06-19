@@ -1,0 +1,6 @@
+* xref:index.adoc[Welcome]
+
+* xref:springboot-embedded:ROOT:index.adoc[SpringBoot + Hazelcast Embedded Guide]
+* xref:springboot-kubernetes:ROOT:index.adoc[SpringBoot + Kubernetes Guide]
+* xref:microprofile-kubernetes:ROOT:index.adoc[Microprofile + Kubernetes Guide]
+

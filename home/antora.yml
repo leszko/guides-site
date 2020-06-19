@@ -1,0 +1,5 @@
+name: guides-home
+version: v0.1
+title: Hazelcast Guides
+nav:
+- modules/ROOT/nav.adoc
