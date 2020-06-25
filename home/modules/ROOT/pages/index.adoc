@@ -1,3 +1,14 @@
-= [Work-in-progress]
+:page-layout: home
 
-You can find the guides on various use cases of Hazelcast integrations here!
+= Welcome to Hazelcast Guides!
+
+You can find the guides on various use cases of Hazelcast integrations here.
+
+*_(work-in-progress)_*
+
+Recently published guides:
+
+* xref:springboot-embedded:ROOT:index.adoc[SpringBoot + Hazelcast Embedded Guide]
+* xref:springboot-kubernetes:ROOT:index.adoc[SpringBoot + Kubernetes Guide]
+* xref:microprofile-kubernetes:ROOT:index.adoc[Microprofile + Kubernetes Guide]
+
