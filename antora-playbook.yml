@@ -20,5 +20,5 @@ content:
       branches: antora-doc
 ui:
   bundle:
-    url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable
+    url: https://github.com/hazelcast-guides/guides-site/raw/bundle/ui-bundle.zip    
     snapshot: true
