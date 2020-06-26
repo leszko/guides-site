@@ -1,14 +1,23 @@
-:page-layout: home
+:page-layout: landing
 
-= Welcome to Hazelcast Guides!
+= Hazelcast Guides
 
-You can find the guides on various use cases of Hazelcast integrations here.
+You can find the guides on various use cases of Hazelcast integrations here!
 
-*_(work-in-progress)_*
+*_(Work-in-progress)_*
 
-Recently published guides:
 
-* xref:springboot-embedded:ROOT:index.adoc[SpringBoot + Hazelcast Embedded Guide]
-* xref:springboot-kubernetes:ROOT:index.adoc[SpringBoot + Kubernetes Guide]
-* xref:microprofile-kubernetes:ROOT:index.adoc[Microprofile + Kubernetes Guide]
+[.guide]
+=== xref:springboot-embedded:ROOT:index.adoc[SpringBoot + Hazelcast Embedded Guide]
 
+Getting started to use Hazelcast in a Spring Boot application.
+
+[.guide]
+=== xref:springboot-kubernetes:ROOT:index.adoc[SpringBoot + Kubernetes Guide]
+
+Caching among SpringBoot microservices deployed on k8s using Hazelcast IMDG.
+
+[.guide]
+=== xref:microprofile-kubernetes:ROOT:index.adoc[Microprofile + Kubernetes Guide]
+
+Caching among Microprofile microservices deployed on k8s using Hazelcast IMDG.
