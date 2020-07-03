@@ -1,4 +1,4 @@
-# How To Publish A Guide
+# How To Publish A Guide On [GitHub Pages](https://hazelcast-guides.github.io/guides-site/guides-home/v0.1/index.html)
 
 - In the guide repository to be published, create `antora` files:
 
@@ -40,7 +40,7 @@ $ antora antora-playbook.yml
 - Move the created content into docs:
 
 ```
-$ pushd docs && rm -rf * && popd
+$ rm -rf docs/*
 $ mv build/site/* docs
 $ rm -r build
 ```

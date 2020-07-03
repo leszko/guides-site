@@ -6,6 +6,8 @@ You can find the guides on various use cases of Hazelcast integrations here!
 
 *_(Work-in-progress)_*
 
+[.guides-grid]
+== {empty}
 
 [.guide]
 === xref:springboot-embedded:ROOT:index.adoc[SpringBoot + Hazelcast Embedded Guide]

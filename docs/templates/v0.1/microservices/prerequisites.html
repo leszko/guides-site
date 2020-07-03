@@ -12,12 +12,13 @@
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://hazelcast.org">Hazelcast Guides</a>
+      <a class="navbar-item" href="../../../guides-home/v0.1/index.html"></a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
         <span></span>
       </button>
+      <a href="../../../guides-home/v0.1/index.html" class="navbar-home-button"></a>
     </div>
     <div id="topbar-nav" class="navbar-menu">
       <div class="navbar-end">
@@ -57,9 +58,11 @@
   </nav>
 </header>
 <div class="body">
-<!-- <div class="nav-container" data-component="templates" data-version="v0.1">
+
+<div class="nav-container" data-component="templates" data-version="v0.1">
   <aside class="nav">
     <div class="panels">
+<!--
 <div class="nav-panel-explore is-active" data-panel="explore">
   <div class="context">
     <span class="title">Templates</span>
@@ -108,17 +111,24 @@
     </li>
   </ul>
 </div>
+ -->
     </div>
   </aside>
 </div>
- -->
+<!--
+nav is included to make toc visible only.
+It's not visible on the page. It needs to
+be removed after toc is made independent
+from nav.
+-->
+
 <main class="article">
 <div class="toolbar" role="navigation">
+
 <button class="nav-toggle"></button>
-  <a href="../../../guides-home/v0.1/index.html" class="home-link"></a>
+<!--
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-<!-- 
   <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/adoc-templates/edit/antora-doc/modules/ROOT/pages/microservices/prerequisites.adoc">Edit this Page</a></div>
   -->
 </div>
@@ -138,13 +148,14 @@
 </ul>
 </div>
 </article>
-<!-- <aside class="toc sidebar" data-title="Contents" data-levels="2">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
 </aside>
- -->
   </div>
 </main>
 </div>
+  </body>
+  <footer class="footer">
 <footer class="footer">
   <a href="https://www.hazelcast.org" class="icon">
     <img src="../../../_/img/hazelcast.png" alt="Hazelcast">
@@ -152,5 +163,5 @@
 </footer>
 <script src="../../../_/js/site.js"></script>
 <script async src="../../../_/js/vendor/highlight.js"></script>
-  </body>
+  </footer>
 </html>

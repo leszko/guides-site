@@ -11,12 +11,13 @@
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://hazelcast.org">Hazelcast Guides</a>
+      <a class="navbar-item" href="/guides-home/v0.1/index.html"></a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
         <span></span>
       </button>
+      <a href="/guides-home/v0.1/index.html" class="navbar-home-button"></a>
     </div>
     <div id="topbar-nav" class="navbar-menu">
       <div class="navbar-end">
@@ -56,9 +57,11 @@
   </nav>
 </header>
 <div class="body">
-<!-- <div class="nav-container">
+
+<div class="nav-container">
   <aside class="nav">
     <div class="panels">
+<!--
 <div class="nav-panel-explore is-active" data-panel="explore">
   <ul class="components">
     <li class="component">
@@ -103,17 +106,24 @@
     </li>
   </ul>
 </div>
+ -->
     </div>
   </aside>
 </div>
- -->
+<!--
+nav is included to make toc visible only.
+It's not visible on the page. It needs to
+be removed after toc is made independent
+from nav.
+-->
+
 <main class="article">
 <div class="toolbar" role="navigation">
+
 <button class="nav-toggle"></button>
-  <a href="/guides-home/v0.1/index.html" class="home-link"></a>
+<!--
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-<!-- 
 -->
 </div>
   <div class="content">
@@ -121,10 +131,9 @@
 <h1 class="page">Page Not Found</h1>
 
 </article>
-<!-- <aside class="toc sidebar" data-title="Contents" data-levels="2">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
 </aside>
- -->
   </div>
 </main>
 </div>
