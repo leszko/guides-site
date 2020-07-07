@@ -1,10 +1,10 @@
 site:
   title: Hazelcast Guides
   url: https://hazelcast.org
-  start_page: guides-home::index.adoc
+  start_page: home::index.adoc
 content:
   sources:
-    - url: . # guides-home
+    - url: . # home
       branches: HEAD
       start_path: home
     - url: https://github.com/hazelcast-guides/hazelcast-embedded-springboot.git # springboot-embedded
