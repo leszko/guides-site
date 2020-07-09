@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <sitemap>
+<loc>https://hazelcast.org/sitemap-hazelcast-embedded-kubernetes.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://hazelcast.org/sitemap-hazelcast-embedded-micronaut.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://hazelcast.org/sitemap-hazelcast-embedded-springboot.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://hazelcast.org/sitemap-hazelcast-hibernate-jcache-l2c.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://hazelcast.org/sitemap-hazelcast-hibernate-springboot.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://hazelcast.org/sitemap-hazelcast-istio.xml</loc>
+</sitemap>
+<sitemap>
+<loc>https://hazelcast.org/sitemap-hazelcast-microprofile.xml</loc>
+</sitemap>
+<sitemap>
 <loc>https://hazelcast.org/sitemap-home.xml</loc>
-</sitemap>
-<sitemap>
-<loc>https://hazelcast.org/sitemap-microprofile-kubernetes.xml</loc>
-</sitemap>
-<sitemap>
-<loc>https://hazelcast.org/sitemap-springboot-embedded.xml</loc>
-</sitemap>
-<sitemap>
-<loc>https://hazelcast.org/sitemap-springboot-kubernetes.xml</loc>
 </sitemap>
 <sitemap>
 <loc>https://hazelcast.org/sitemap-templates.xml</loc>

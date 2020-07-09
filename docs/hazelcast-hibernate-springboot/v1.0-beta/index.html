@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Untitled :: Hazelcast Guides</title>
-    <link rel="canonical" href="https://hazelcast.org/templates/v0.1/prereq-caching-ms.html">
+    <title>Getting Started with Hazelcast and Hibernate Second-Level Cache :: Hazelcast Guides</title>
+    <link rel="canonical" href="https://hazelcast.org/hazelcast-hibernate-springboot/v1.0-beta/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../_/css/site.css">
   </head>
@@ -59,14 +59,14 @@
 </header>
 <div class="body">
 
-<div class="nav-container" data-component="templates" data-version="v0.1">
+<div class="nav-container" data-component="hazelcast-hibernate-springboot" data-version="v1.0-beta">
   <aside class="nav">
     <div class="panels">
 <!--
 <div class="nav-panel-explore is-active" data-panel="explore">
   <div class="context">
-    <span class="title">Templates</span>
-    <span class="version">v0.1</span>
+    <span class="title">Getting Started with Hazelcast and Hibernate Second-Level Cache</span>
+    <span class="version">v1.0-beta</span>
   </div>
   <ul class="components">
     <li class="component">
@@ -77,11 +77,11 @@
         </li>
       </ul>
     </li>
-    <li class="component">
+    <li class="component is-current">
       <span class="title">Getting Started with Hazelcast and Hibernate Second-Level Cache</span>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../../hazelcast-hibernate-springboot/v1.0-beta/index.html">v1.0-beta</a>
+        <li class="version is-current is-latest">
+          <a href="index.html">v1.0-beta</a>
         </li>
       </ul>
     </li>
@@ -133,11 +133,11 @@
         </li>
       </ul>
     </li>
-    <li class="component is-current">
+    <li class="component">
       <span class="title">Templates</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="index.html">v0.1</a>
+        <li class="version is-latest">
+          <a href="../../templates/v0.1/index.html">v0.1</a>
         </li>
       </ul>
     </li>
@@ -161,59 +161,124 @@ from nav.
 <!--
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/adoc-templates/edit/antora-doc/modules/ROOT/pages/prereq-caching-ms.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/hazelcast-hibernate-springboot/edit/antora/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
   -->
 </div>
   <div class="content">
 <article class="guide-content">
+<h1 class="page">Getting Started with Hazelcast and Hibernate Second-Level Cache</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide will get you started to use Hazelcast in a Spring Boot application.
+You can see the code sample <a href="https://github.com/hazelcast-guides/hazelcast-hibernate-springboot">here</a>.
+== What You’ll Learn</p>
+</div>
+<div class="paragraph">
+<p>In this guide, you&#8217;ll see how to quickly set up a Spring Boot application using Hazelcast as Hibernate&#8217;s second-level cache.</p>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before you begin, have the following tools installed:</p>
+<p>In order to run the code sample, make sure to have PostgresSQL database accessible and configured properly in the <code>application.properties</code> file.</p>
 </div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
 <div class="paragraph">
-<p>First, you will need Apache Maven to build and run the project.</p>
+<p>You can spin-up a PostgreSQL instance easily using Docker:</p>
 </div>
-<div class="paragraph">
-<p>Also you will need a containerization software for building containers. {kube} supports a variety
-of container types. You will use <code>Docker</code> in this guide. For installation instructions, refer to the <a href="https://docs.docker.com/install/" target="_blank" rel="noopener">official Docker documentation</a>.</p>
-</div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p><span class="system"><strong>Windows</strong> | <strong>Mac</strong></span></p>
+<pre>docker run --name 2lc-postgres --publish 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres:13</pre>
 </div>
-<div class="paragraph">
-<p>Use Docker Desktop, where a local {kube} environment is pre-installed and enabled. If you do not see the {kube} tab then you have an older version of Docker Desktop; upgrade to the latest version.</p>
 </div>
-<div class="paragraph">
-<p>Complete the setup for your operating system:</p>
+</td>
+</tr>
+</table>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Set up  <a href="https://docs.docker.com/docker-for-windows/#kubernetes" target="_blank" rel="noopener">Docker for Windows</a>.
-On the Docker for Windows <em>General Setting</em> page, ensure that the option <code>Expose daemon on
-tcp://localhost:2375 without TLS</code> is enabled. This is required by the <code>dockerfile-maven</code>
-part of the build.</p>
-</li>
-<li>
-<p>Set up <a href="https://docs.docker.com/docker-for-mac/#kubernetes" target="_blank" rel="noopener">Docker for Mac</a>.</p>
-</li>
-<li>
-<p>After following one of the sets of instructions, ensure that {kube} (not Swarm) is selected as the orchestrator in Docker Preferences.</p>
-</li>
-</ul>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration"><a class="anchor" href="#_configuration"></a>Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to enable JPA, you need to add a dedicated Spring Boot Starter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
 </div>
 <div class="paragraph">
-<p><span class="system"><strong>Linux</strong></span></p>
+<p>In order to configure Hazelcast as second-level cache provider, you need to add two dependencies:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+	&lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
+	&lt;artifactId&gt;hazelcast-hibernate53&lt;/artifactId&gt;
+	&lt;version&gt;2.0.0&lt;/version&gt;
+&lt;/dependency
+
+&lt;dependency&gt;
+	&lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
+	&lt;artifactId&gt;hazelcast&lt;/artifactId&gt;
+	&lt;version&gt;4.0.2&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+</div>
 </div>
 <div class="paragraph">
-<p>You will use <code>Minikube</code> as a single-node {kube} cluster that runs locally in a virtual machine.
-For Minikube installation instructions see the <a href="https://github.com/kubernetes/minikube#installation" target="_blank" rel="noopener">minikube installation instructions</a>. Make sure to pay attention to the requirements as they vary by platform.</p>
+<p>And then, we need to configure Hazelcast IMDG local member setting by adding a standard <code>hazelcast.xml</code> file into <code>src/main/resources</code>.</p>
+</div>
+<div class="paragraph">
+<p>Keep in mind that this might trigger the autoconfiguration of another Hazelcast member so you might want to disable Hazelcast autoconfiguration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>@SpringBootApplication(exclude = HazelcastAutoConfiguration.class)</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>The last step involves turning on second-level cache by adding two properties into <code>application.properties</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>spring.jpa.properties.hibernate.cache.use_second_level_cache=true
+spring.jpa.properties.hibernate.cache.region.factory_class=com.hazelcast.hibernate.HazelcastCacheRegionFactory</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And now, once you annotate your entity as <code>@Cacheable</code>, it will be cached in Hazelcast member:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>@Entity
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class Book { ... }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When you run the code sample, an object will be saved to database and then will be fetched. In the meantime the object will be stored in the second level cache. <code>SecondLevelCacheVisualizer</code> will print out the L2C content in every 10 seconds. The object will be evicted from the L2C after 30 seconds, which is the configured time-to-live seconds in <code>hazelcast.xml</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this guide, we bootstrapped a Spring Boot application which uses Hazelcast as Hibernate&#8217;s second-level cache.</p>
 </div>
 </div>
 </div>

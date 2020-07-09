@@ -7,17 +7,29 @@ content:
     - url: . # home
       branches: HEAD
       start_path: home
-    - url: https://github.com/hazelcast-guides/hazelcast-embedded-springboot.git # springboot-embedded
-      branches: antora-doc
-      start_path: antora
-    - url: https://github.com/hazelcast-guides/caching-microprofile-microservices-on-kubernetes # microprofile-kubernetes
-      branches: antora-doc
-      start_path: antora
-    - url: https://github.com/hazelcast-guides/caching-springboot-microservices-on-kubernetes # springboot-kubernetes
-      branches: antora-doc
-      start_path: antora
     - url: https://github.com/hazelcast-guides/adoc-templates.git
       branches: antora-doc
+    - url: https://github.com/hazelcast-guides/hazelcast-embedded-springboot
+      branches: antora
+      start_path: doc
+    - url: https://github.com/hazelcast-guides/hazelcast-hibernate-springboot
+      branches: antora
+      start_path: doc
+    - url: https://github.com/hazelcast-guides/hazelcast-hibernate-jcache-l2c
+      branches: antora
+      start_path: doc
+    - url: https://github.com/hazelcast-guides/hazelcast-istio
+      branches: antora
+      start_path: doc
+    - url: https://github.com/hazelcast-guides/hazelcast-embedded-micronaut
+      branches: antora
+      start_path: doc
+    - url: https://github.com/hazelcast-guides/hazelcast-embedded-kubernetes
+      branches: antora
+      start_path: doc
+    - url: https://github.com/hazelcast-guides/hazelcast-microprofile
+      branches: antora
+      start_path: doc
 ui:
   bundle:
     url: https://github.com/hazelcast-guides/guides-site/raw/bundle/ui-bundle.zip    

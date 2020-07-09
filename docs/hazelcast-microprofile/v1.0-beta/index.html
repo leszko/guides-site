@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Untitled :: Hazelcast Guides</title>
-    <link rel="canonical" href="https://hazelcast.org/templates/v0.1/minikube-teardown.html">
+    <title>Getting Started with Hazelcast using Microprofile :: Hazelcast Guides</title>
+    <link rel="canonical" href="https://hazelcast.org/hazelcast-microprofile/v1.0-beta/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../_/css/site.css">
   </head>
@@ -59,14 +59,14 @@
 </header>
 <div class="body">
 
-<div class="nav-container" data-component="templates" data-version="v0.1">
+<div class="nav-container" data-component="hazelcast-microprofile" data-version="v1.0-beta">
   <aside class="nav">
     <div class="panels">
 <!--
 <div class="nav-panel-explore is-active" data-panel="explore">
   <div class="context">
-    <span class="title">Templates</span>
-    <span class="version">v0.1</span>
+    <span class="title">Getting Started with Hazelcast using Microprofile</span>
+    <span class="version">v1.0-beta</span>
   </div>
   <ul class="components">
     <li class="component">
@@ -93,11 +93,11 @@
         </li>
       </ul>
     </li>
-    <li class="component">
+    <li class="component is-current">
       <span class="title">Getting Started with Hazelcast using Microprofile</span>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../../hazelcast-microprofile/v1.0-beta/index.html">v1.0-beta</a>
+        <li class="version is-current is-latest">
+          <a href="index.html">v1.0-beta</a>
         </li>
       </ul>
     </li>
@@ -133,11 +133,11 @@
         </li>
       </ul>
     </li>
-    <li class="component is-current">
+    <li class="component">
       <span class="title">Templates</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="index.html">v0.1</a>
+        <li class="version is-latest">
+          <a href="../../templates/v0.1/index.html">v0.1</a>
         </li>
       </ul>
     </li>
@@ -161,65 +161,178 @@ from nav.
 <!--
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/adoc-templates/edit/antora-doc/modules/ROOT/pages/minikube-teardown.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/hazelcast-microprofile/edit/antora/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
   -->
 </div>
   <div class="content">
 <article class="guide-content">
-<div class="sect1">
-<h2 id="_tearing_down_the_environment"><a class="anchor" href="#_tearing_down_the_environment"></a>Tearing down the environment</h2>
+<h1 class="page">Getting Started with Hazelcast using Microprofile</h1>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>When you no longer need your deployed microservices, you can delete all Kubernetes resources by running the kubectl delete command: You might need to wait up to 30 seconds as stateful sets kills pods one at a time.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>$ &gt; kubectl delete -f kubernetes.yaml</pre>
-</div>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="paragraph">
-<p><span class="system"><strong>Windows</strong> | <strong>Mac</strong></span></p>
+<p>This guide will get you started to use Hazelcast in a Microprofile application.</p>
 </div>
 <div class="paragraph">
-<p>Nothing more needs to be done for Docker Desktop.</p>
+<p>You can see the whole project <a href="https://github.com/hazelcast-guides/hazelcast-microprofile">here.</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_youll_learn"><a class="anchor" href="#_what_youll_learn"></a>What You’ll Learn</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this guide, you will learn how to use Hazelcast IMDG within Microprofile microservices.</p>
 </div>
 <div class="paragraph">
-<p><span class="system"><strong>Linux</strong></span></p>
+<p>The Microprofile application contains two REST controllers which helps you to put data and read it back. The application initializes a single Hazelcast IMDG member instance which is used to keep the data. When you run the application multiple times, Hazelcast IMDG instances build a cluster and share the data.</p>
 </div>
-<div class="paragraph">
-<p>Perform the following steps to return your environment to a clean state.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
 <li>
-<p>Point the Docker daemon back to your local machine:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>$ &gt; eval $(minikube docker-env -u)</code></pre>
-</div>
-</div>
+<p>A text editor or IDE</p>
 </li>
 <li>
-<p>Stop your Minikube cluster:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>$ &gt; minikube stop</code></pre>
-</div>
-</div>
+<p>JDK 1.8+</p>
 </li>
 <li>
-<p>Delete your cluster:</p>
+<p>Apache Maven 3.2+</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuring_hazelcast"><a class="anchor" href="#_configuring_hazelcast"></a>Configuring Hazelcast</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before starting to use Hazelcast inside the application, let&#8217;s configure it in <code>HazelcastApplication.java</code>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>$ &gt; minikube delete</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Produces
+HazelcastInstance create() {
+    Config config = new Config();
+    // all other configurations (networking,
+    // listeners, etc.) can be set here.
+    MapConfig mapConfig = new MapConfig();
+    mapConfig.setName(MAP_NAME);
+    mapConfig.setTimeToLiveSeconds(30);
+    config.addMapConfig(mapConfig);
+    return Hazelcast.newHazelcastInstance(config);
+}</code></pre>
 </div>
 </div>
-</li>
-</ol>
+<div class="paragraph">
+<p><code>create()</code> method will supply HazelcastInstance wherever it is injected:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Inject
+HazelcastInstance instance;</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Now that we have a HazelcastInstance, we can reach to the distributed map over the instance:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">private IMap&lt;Integer,String&gt; getDistributedMap() {
+    return instance.getMap(HazelcastApplication.MAP_NAME);
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Since we call the map with <code>MAP_NAME</code> - which we configured before, it will have 30 seconds of time-to-live.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>And that&#8217;s all! The distributed map is ready to use now.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IMap&lt;Integer,String&gt; map = getDistributedMap();
+map.put(1, "value");
+map.get(1);
+map.putIfAbsent(1, "another_value");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, let&#8217;s start up two different servers and deploy the applications.</p>
+</div>
+<div class="paragraph">
+<p>Start the first server listening on port 9080:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ cd server1
+$ mvn install liberty:run-server</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In another terminal session, start the second server listening on port 9081:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ cd server2
+$ mvn install liberty:run-server</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After two servers are up and ready, you will see the logs:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>The HazelcastGuides1 server is ready to run a smarter planet.
+...
+The HazelcastGuides2 server is ready to run a smarter planet.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s give it a try:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ curl -X PUT "http://localhost:9080/application/map/put?key=1&amp;value=greetings_from_server1"
+Put: greetings_from_server1. Old value was: null
+
+$ curl -X GET "http://localhost:9081/application/map/get?key=1"
+{ 1 : greetings_from_server1 }
+
+$ curl -X PUT "http://localhost:9081/application/map/put?key=2&amp;value=cool"
+Put: cool. Old value was: null
+
+$ curl -X GET "http://localhost:9080/application/map/list"
+Size: 2
+{ 1: greetings_from_server1 }
+{ 2: cool }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that after 30 seconds, these values will be evicted.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this guide, we developed a simple application that stores the data in a
+Hazelcast instance. We started two application instances, and they formed a
+Hazelcast cluster. Since the data was shared among Hazelcast cluster instances,
+we could access it from both application instances.</p>
 </div>
 </div>
 </div>

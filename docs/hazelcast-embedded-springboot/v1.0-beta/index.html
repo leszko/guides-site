@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Getting Started with Hazelcast using Spring Boot :: Hazelcast Guides</title>
-    <link rel="canonical" href="https://hazelcast.org/springboot-embedded/v0.1/index.html">
+    <link rel="canonical" href="https://hazelcast.org/hazelcast-embedded-springboot/v1.0-beta/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../_/css/site.css">
   </head>
@@ -59,21 +59,53 @@
 </header>
 <div class="body">
 
-<div class="nav-container" data-component="springboot-embedded" data-version="v0.1">
+<div class="nav-container" data-component="hazelcast-embedded-springboot" data-version="v1.0-beta">
   <aside class="nav">
     <div class="panels">
 <!--
 <div class="nav-panel-explore is-active" data-panel="explore">
   <div class="context">
-    <span class="title">Hazelcast + SpringBoot</span>
-    <span class="version">v0.1</span>
+    <span class="title">Getting Started with Hazelcast using Spring Boot</span>
+    <span class="version">v1.0-beta</span>
   </div>
   <ul class="components">
+    <li class="component">
+      <span class="title">Getting Started with Embedded Hazelcast on Kubernetes</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../hazelcast-embedded-kubernetes/v1.0-beta/index.html">v1.0-beta</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Getting Started with Hazelcast and Hibernate Second-Level Cache</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../hazelcast-hibernate-springboot/v1.0-beta/index.html">v1.0-beta</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Getting Started with Hazelcast using Micronaut</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../hazelcast-embedded-micronaut/v1.0-beta/index.html">v1.0-beta</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <span class="title">Getting Started with Hazelcast using Microprofile</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../hazelcast-microprofile/v1.0-beta/index.html">v1.0-beta</a>
+        </li>
+      </ul>
+    </li>
     <li class="component is-current">
-      <span class="title">Hazelcast + SpringBoot</span>
+      <span class="title">Getting Started with Hazelcast using Spring Boot</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="index.html">v0.1</a>
+          <a href="index.html">v1.0-beta</a>
         </li>
       </ul>
     </li>
@@ -86,18 +118,18 @@
       </ul>
     </li>
     <li class="component">
-      <span class="title">Microprofile + Kubernetes</span>
+      <span class="title">Hazelcast with Istio Service Mesh</span>
       <ul class="versions">
         <li class="version is-latest">
-          <a href="../../microprofile-kubernetes/v0.1/index.html">v0.1</a>
+          <a href="../../hazelcast-istio/v1.0-beta/index.html">v1.0-beta</a>
         </li>
       </ul>
     </li>
     <li class="component">
-      <span class="title">SpringBoot + Kubernetes</span>
+      <span class="title">Jcache SPI for using Hazelcast as L2C for Hibernate</span>
       <ul class="versions">
         <li class="version is-latest">
-          <a href="../../springboot-kubernetes/v0.1/index.html">v0.1</a>
+          <a href="../../hazelcast-hibernate-jcache-l2c/v1.0-beta/index.html">v1.0-beta</a>
         </li>
       </ul>
     </li>
@@ -129,7 +161,7 @@ from nav.
 <!--
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/hazelcast-embedded-springboot/edit/antora-doc/antora/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/hazelcast-embedded-springboot/edit/antora/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
   -->
 </div>
   <div class="content">
@@ -206,7 +238,7 @@ from nav.
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
     &lt;artifactId&gt;hazelcast-all&lt;/artifactId&gt;
-    &lt;version&gt;4.0&lt;/version&gt;
+    &lt;version&gt;4.0.2&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -263,7 +295,7 @@ public class CommandController {
 </div>
 </div>
 <div class="paragraph">
-<p>Then run the application again on another terminal. But this time, note that you need to set a different value for the <code>server.port</code>.</p>
+<p>Then rerun the application in another terminal. But this time, note that you need to set a different value for the <code>server.port</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -282,7 +314,7 @@ public class CommandController {
 </div>
 </div>
 <div class="paragraph">
-<p>Now, you can make calls to application endpoints to put data and get it back. Firstly, run the following command to put the data into Hazelcast distributed map:</p>
+<p>Now, you can issue HTTP requests to put and get data back. Firstly, run the following command to put the data into Hazelcast distributed map:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -332,25 +364,7 @@ public class CommandController {
 <h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this guide, we first developed a simple microservices application which stores the data in a Hazelcast instance. We started two application instances, and they built a Hazelcast cluster together. Since the data is shared among Hazelcast cluster instances, we can access it from both of the applications.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://github.com/hazelcast-guides/caching-springboot-microservices-on-kubernetes">Caching SpringBoot Microservices with Hazelcast in Kubernetes</a></p>
-</li>
-<li>
-<p><a href="https://github.com/hazelcast-guides/caching-micronaut-microservices-on-kubernetes">Caching Micronaut microservices on Kubernetes using Hazelcast</a></p>
-</li>
-<li>
-<p><a href="https://github.com/hazelcast-guides/hazelcast-quarkus">Hazelcast and Quarkus</a></p>
-</li>
-</ul>
+<p>In this guide, we developed a simple application that stores the data in a Hazelcast instance. We started two application instances, and they formed a Hazelcast cluster. Since the data was shared among Hazelcast cluster instances, we could access it from both application instances.</p>
 </div>
 </div>
 </div>
