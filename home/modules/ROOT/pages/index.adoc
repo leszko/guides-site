@@ -44,3 +44,8 @@ Getting Started with Embedded Hazelcast on Kubernetes.
 === xref:hazelcast-microprofile:ROOT:index.adoc[Hazelcast in Microprofile]
 
 Getting Started with Hazelcast using Microprofile.
+
+[.guide]
+=== xref:quarkus-hazelcast-client:ROOT:index.adoc[Hazelcast Client for Quarkus]
+
+Getting Started with Hazelcast using Quarkus.

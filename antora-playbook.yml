@@ -30,7 +30,11 @@ content:
     - url: https://github.com/hazelcast-guides/hazelcast-microprofile
       branches: antora
       start_path: doc
+    - url: https://github.com/hazelcast-guides/hazelcast-quarkus
+      branches: antora
+      start_path: doc
+
 ui:
   bundle:
-    url: https://github.com/hazelcast-guides/guides-site/raw/bundle/ui-bundle.zip    
+    url: https://github.com/hazelcast-guides/guides-site/raw/bundle/ui-bundle.zip
     snapshot: true
