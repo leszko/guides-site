@@ -37,6 +37,12 @@ This is a brand new guide explanation.
 $ antora --clean --fetch --to-dir ./docs antora-playbook.yml
 ```
 
+- Copy .nojekyll file into docs folder:
+
+```
+$ cp .nojekyll ./docs
+```
+
 - Check if your guide is added successfully:
 
 ```
