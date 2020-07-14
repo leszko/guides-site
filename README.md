@@ -20,7 +20,7 @@ This files can be in a separate branch or located in a different root directory.
 
 This is a brand new guide explanation.
 
-``` 
+```
 `<new-guide>` tag here is the one that you specify in the `antora.yml` at the first step.
 
 - In `antora-playbook.yml`, include the new guide's repository:
@@ -34,16 +34,15 @@ This is a brand new guide explanation.
 - Create new docs:
 
 ```
-$ antora antora-playbook.yml
+$ antora --clean --fetch --to-dir ./docs antora-playbook.yml
 ```
 
-- Move the created content into docs:
+- Copy .nojekyll file into docs folder:
 
 ```
-$ rm -rf docs/*
-$ mv build/site/* docs
-$ rm -r build
+$ cp .nojekyll ./docs
 ```
+
 - Check if your guide is added successfully:
 
 ```
