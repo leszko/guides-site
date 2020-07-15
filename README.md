@@ -34,13 +34,13 @@ This is a brand new guide explanation.
 - Create new docs:
 
 ```
-$ antora --clean --fetch --to-dir ./docs antora-playbook.yml
+$ sh create.sh
 ```
 
-- Copy .nojekyll file into docs folder:
+If no error is encountered, you will see the following log at the end:
 
 ```
-$ cp .nojekyll ./docs
+New site root is created at docs/index.html
 ```
 
 - Check if your guide is added successfully:
