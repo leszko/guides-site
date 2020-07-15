@@ -16,7 +16,7 @@ You can find the guides on various use cases of Hazelcast integrations here!
 Getting Started with Hazelcast using Spring Boot.
 
 [.guide]
-=== xref:hazelcast-hibernate-springboot:ROOT:index.adoc[Hazelcast LC2 for Hibernate in SpringBoot]
+=== xref:hazelcast-hibernate-springboot:ROOT:index.adoc[Hazelcast L2C for Hibernate in SpringBoot]
 
 Getting Started with Hazelcast and Hibernate Second-Level Cache.
 
