@@ -33,7 +33,15 @@ content:
     - url: https://github.com/hazelcast-guides/hazelcast-quarkus
       branches: master
       start_path: doc
-
+    - url: https://github.com/hazelcast-guides/springboot-session-replication
+      branches: master
+      start_path: doc
+    - url: https://github.com/hazelcast-guides/springboot-caching
+      branches: master
+      start_path: doc
+    - url: https://github.com/hazelcast-guides/hazelcast-embedded-ecs
+      branches: master
+      start_path: doc
 ui:
   bundle:
     url: https://github.com/hazelcast-guides/guides-site/raw/bundle/ui-bundle.zip

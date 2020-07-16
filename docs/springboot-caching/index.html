@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Getting Started with Hazelcast and Hibernate Second-Level Cache :: Hazelcast Guides</title>
-    <link rel="canonical" href="https://hazelcast.org/hazelcast-hibernate-springboot/index.html">
+    <title>Caching with Spring Boot and Hazelcast :: Hazelcast Guides</title>
+    <link rel="canonical" href="https://hazelcast.org/springboot-caching/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -59,21 +59,21 @@
 </header>
 <div class="body">
 
-<div class="nav-container" data-component="hazelcast-hibernate-springboot" data-version="master">
+<div class="nav-container" data-component="springboot-caching" data-version="master">
   <aside class="nav">
     <div class="panels">
 <!--
 <div class="nav-panel-explore is-active" data-panel="explore">
   <div class="context">
-    <span class="title">Getting Started with Hazelcast and Hibernate Second-Level Cache</span>
+    <span class="title">Caching with Spring Boot and Hazelcast</span>
     <span class="version">master</span>
   </div>
   <ul class="components">
-    <li class="component">
+    <li class="component is-current">
       <span class="title">Caching with Spring Boot and Hazelcast</span>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../springboot-caching/index.html">master</a>
+        <li class="version is-current is-latest">
+          <a href="index.html">master</a>
         </li>
       </ul>
     </li>
@@ -93,11 +93,11 @@
         </li>
       </ul>
     </li>
-    <li class="component is-current">
+    <li class="component">
       <span class="title">Getting Started with Hazelcast and Hibernate Second-Level Cache</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="index.html">master</a>
+        <li class="version is-latest">
+          <a href="../hazelcast-hibernate-springboot/index.html">master</a>
         </li>
       </ul>
     </li>
@@ -193,17 +193,19 @@ from nav.
 <!--
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/hazelcast-hibernate-springboot/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/springboot-caching/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
   -->
 </div>
   <div class="content">
 <article class="guide-content">
-<h1 class="page">Getting Started with Hazelcast and Hibernate Second-Level Cache</h1>
+<h1 class="page">Caching with Spring Boot and Hazelcast</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This guide will get you started to use Hazelcast in a Spring Boot application.
-You can see the code sample <a href="https://github.com/hazelcast-guides/hazelcast-hibernate-springboot">here</a>.</p>
+<p>This guide will get you started to use Hazelcast as a cache manager for your Spring Boot application.</p>
+</div>
+<div class="paragraph">
+<p>You can see the whole project <a href="https://github.com/hazelcast-guides/springboot-caching">here.</a></p>
 </div>
 </div>
 </div>
@@ -211,125 +213,200 @@ You can see the code sample <a href="https://github.com/hazelcast-guides/hazelca
 <h2 id="_what_youll_learn"><a class="anchor" href="#_what_youll_learn"></a>What You’ll Learn</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this guide, you&#8217;ll see how to quickly set up a Spring Boot application using Hazelcast as Hibernate&#8217;s second-level cache.</p>
+<p>In this guide, you&#8217;ll deploy a Spring Boot application which uses Hazelcast as a cache manager.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>In order to run the code sample, make sure to have PostgresSQL database accessible and configured properly in the <code>application.properties</code> file.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>You can spin-up a PostgreSQL instance easily using Docker:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>docker run --name 2lc-postgres --publish 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres:13</pre>
-</div>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_configuration"><a class="anchor" href="#_configuration"></a>Configuration</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>In order to enable JPA, you need to add a dedicated Spring Boot Starter:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>&lt;dependency&gt;
-	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-	&lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
-&lt;/dependency&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In order to configure Hazelcast as second-level cache provider, you need to add two dependencies:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>&lt;dependency&gt;
-	&lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
-	&lt;artifactId&gt;hazelcast-hibernate53&lt;/artifactId&gt;
-	&lt;version&gt;2.0.0&lt;/version&gt;
-&lt;/dependency
-
-&lt;dependency&gt;
-	&lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
-	&lt;artifactId&gt;hazelcast&lt;/artifactId&gt;
-	&lt;version&gt;4.0.2&lt;/version&gt;
-&lt;/dependency&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>And then, we need to configure Hazelcast IMDG local member setting by adding a standard <code>hazelcast.xml</code> file into <code>src/main/resources</code>.</p>
-</div>
-<div class="paragraph">
-<p>Keep in mind that this might trigger the autoconfiguration of another Hazelcast member so you might want to disable Hazelcast autoconfiguration:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>@SpringBootApplication(exclude = HazelcastAutoConfiguration.class)</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The last step involves turning on second-level cache by adding two properties into <code>application.properties</code> file:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>spring.jpa.properties.hibernate.cache.use_second_level_cache=true
-spring.jpa.properties.hibernate.cache.region.factory_class=com.hazelcast.hibernate.HazelcastCacheRegionFactory</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>And now, once you annotate your entity as <code>@Cacheable</code>, it will be cached in Hazelcast member:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>@Entity
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Book { ... }</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>When you run the code sample, an object will be saved to database and then will be fetched. In the meantime the object will be stored in the second level cache. <code>SecondLevelCacheVisualizer</code> will print out the L2C content in every 10 seconds. The object will be evicted from the L2C after 30 seconds, which is the configured time-to-live seconds in <code>hazelcast.xml</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>In this guide, we bootstrapped a Spring Boot application which uses Hazelcast as Hibernate&#8217;s second-level cache.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
-<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/hazelcast-guides/caching-springboot-microservices-on-kubernetes">Caching SpringBoot Microservices with Hazelcast in Kubernetes</a></p>
+<p>~5 minutes</p>
 </li>
 <li>
-<p><a href="https://github.com/hazelcast-guides/caching-micronaut-microservices-on-kubernetes">Caching Micronaut microservices on Kubernetes using Hazelcast</a></p>
+<p>JDK 1.8+</p>
+</li>
+<li>
+<p>Apache Maven 3.2+</p>
 </li>
 </ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_spring_boot_application"><a class="anchor" href="#_spring_boot_application"></a>Spring Boot Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To use caching in your Spring Boot application, you need to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>add <code>org.springframework.boot:spring-boot-starter-cache</code> dependency</p>
+</li>
+<li>
+<p>add <code>@EnableCaching</code> annotation to your main class</p>
+</li>
+<li>
+<p>add <code>@Cacheable("books")</code> annotation to every method you want to cache</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For more explanation on the Spring Boot cache topic, please check the official Spring Guide: <a href="https://spring.io/guides/gs/caching/">Caching Data with Spring</a>.</p>
+</div>
+<div class="paragraph">
+<p>In our case, let&#8217;s have a simple web service with two classes defined as follows.</p>
+</div>
+<div class="listingblock">
+<div class="title">BookController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@RestController
+@RequestMapping("/books")
+public class BookController {
+    @Autowired
+    private BookService bookService;
+
+    @GetMapping("/{isbn}")
+    public String getBookNameByIsbn(@PathVariable("isbn") String isbn) {
+        return bookService.getBookNameByIsbn(isbn);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">BookService.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Service
+public class BookService {
+    @Cacheable("books")
+    public String getBookNameByIsbn(String isbn) {
+        return findBookInSlowSource(isbn);
+    }
+
+    private String findBookInSlowSource(String isbn) {
+        // some long processing
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "Sample Book Name";
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If we started the application, then every call to the endpoint <code>/books/&lt;isbn&gt;</code> would go to the method <code>findBookNameByIsbn()</code> which in turn would first check the cache. Only if it does not find value in the cache, the method <code>findBookInSlowSource()</code> would be executed.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_hazelcast_as_cache_manager"><a class="anchor" href="#_using_hazelcast_as_cache_manager"></a>Using Hazelcast as Cache Manager</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We want to use Hazelcast as the cache manager. The good news is that all you have to do it to add Hazelcast to your classpath.</p>
+</div>
+<div class="listingblock">
+<div class="title">pom.xml</div>
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
+    &lt;artifactId&gt;hazelcast-all&lt;/artifactId&gt;
+    &lt;version&gt;4.0.2&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then, you need to add Hazelcast configuration in one of the following manners:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add <code>hazelcast.yaml</code> configuration OR</p>
+</li>
+<li>
+<p>Add <code>hazelcast.xml</code> configuration OR</p>
+</li>
+<li>
+<p>Define <code>@Bean</code> with Hazelcast configuration in the source code</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let’s use the first option and add the following file into <code>src/main/resources</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">hazelcast.yaml</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">hazelcast:
+  network:
+    join:
+      multicast:
+        enabled: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>No more configuration needed, Hazelcast is already used as the cache manager for your project!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_starting_the_application"><a class="anchor" href="#_starting_the_application"></a>Starting the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To start the application, run the following command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>mvn spring-boot:run</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see in the logs that embedded Hazelcast has started.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Members {size:1, ver:1} [
+        Member [172.30.63.9]:5701 - 75cd0b19-ee36-4e0a-9d9c-38c49f67f842 this
+]</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_testing_the_application"><a class="anchor" href="#_testing_the_application"></a>Testing the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can test the application by executing the following command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl locahost:8080/books/12345
+Sample Book Name</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first time you execute this command it should take some time to get the response. However, when you try it again, it should be instant. That means that the cache is used.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>curl locahost:8080/books/12345
+Sample Book Name</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_whats_more"><a class="anchor" href="#_whats_more"></a>What&#8217;s more?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Spring Boot is really well integrated with Hazelcast and vice-versa. If you want to use Hazelcast in the client-server topology, then it&#8217;s enough if you create <code>hazelcast-client.yaml</code> file instead of <code>hazelcast.yaml</code> on your classpath. And that&#8217;s it! You configured Hazelcast client.</p>
+</div>
+<div class="paragraph">
+<p>If you want to read more, check out the official documentation <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-hazelcast">Spring Boot: Hazelcast</a>.</p>
 </div>
 </div>
 </div>

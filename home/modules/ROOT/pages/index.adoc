@@ -49,3 +49,18 @@ Getting Started with Hazelcast using Microprofile.
 === xref:hazelcast-quarkus:ROOT:index.adoc[Hazelcast Client for Quarkus]
 
 Getting Started with Hazelcast using Quarkus.
+
+[.guide]
+=== xref:springboot-session-replication:ROOT:index.adoc[Session Replication with Spring Boot and Hazelcast]
+
+Getting Started with Hazelcast using Session Replication in Spring Boot.
+
+[.guide]
+=== xref:springboot-caching:ROOT:index.adoc[Caching with Spring Boot and Hazelcast]
+
+Getting Started with Hazelcast as Cache Manager in Spring Boot.
+
+[.guide]
+=== xref:hazelcast-embedded-ecs:ROOT:index.adoc[Getting Started with Embedded Hazelcast on ECS]
+
+Getting Started with Hazelcast on ECS.
