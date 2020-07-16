@@ -10,7 +10,7 @@ content:
     - url: https://github.com/hazelcast-guides/adoc-templates.git
       branches: antora-doc
     - url: https://github.com/hazelcast-guides/hazelcast-embedded-springboot
-      branches: antora
+      branches: master
       start_path: doc
     - url: https://github.com/hazelcast-guides/hazelcast-hibernate-springboot
       branches: master
@@ -19,13 +19,13 @@ content:
       branches: master
       start_path: doc
     - url: https://github.com/hazelcast-guides/hazelcast-istio
-      branches: antora
+      branches: master
       start_path: doc
     - url: https://github.com/hazelcast-guides/hazelcast-embedded-micronaut
-      branches: antora
+      branches: master
       start_path: doc
     - url: https://github.com/hazelcast-guides/hazelcast-embedded-kubernetes
-      branches: antora
+      branches: master
       start_path: doc
     - url: https://github.com/hazelcast-guides/hazelcast-microprofile
       branches: master
