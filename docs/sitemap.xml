@@ -22,10 +22,10 @@
 <loc>https://hazelcast.org/sitemap-hazelcast-microprofile.xml</loc>
 </sitemap>
 <sitemap>
-<loc>https://hazelcast.org/sitemap-home.xml</loc>
+<loc>https://hazelcast.org/sitemap-hazelcast-quarkus.xml</loc>
 </sitemap>
 <sitemap>
-<loc>https://hazelcast.org/sitemap-quarkus-hazelcast-client.xml</loc>
+<loc>https://hazelcast.org/sitemap-home.xml</loc>
 </sitemap>
 <sitemap>
 <loc>https://hazelcast.org/sitemap-templates.xml</loc>
