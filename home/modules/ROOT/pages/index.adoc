@@ -64,3 +64,8 @@ Getting Started with Hazelcast as Cache Manager in Spring Boot.
 === xref:hazelcast-embedded-ecs:ROOT:index.adoc[Getting Started with Embedded Hazelcast on ECS]
 
 Getting Started with Hazelcast on ECS.
+
+[.guide]
+=== xref:striim-hazelcast-cdc:ROOT:index.adoc[Load data from Oracle CDC to Hazelcast via Striim]
+
+Load data from Oracle CDC to Hazelcast via Striim

@@ -37,6 +37,9 @@
 <loc>https://hazelcast.org/sitemap-springboot-session-replication.xml</loc>
 </sitemap>
 <sitemap>
+<loc>https://hazelcast.org/sitemap-striim-hazelcast-cdc.xml</loc>
+</sitemap>
+<sitemap>
 <loc>https://hazelcast.org/sitemap-templates.xml</loc>
 </sitemap>
 </sitemapindex>
