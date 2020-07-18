@@ -6,9 +6,13 @@ You can find the guides on various use cases of Hazelcast integrations here!
 
 *_(Work-in-progress)_*
 
+
+[.group-header]
+== Caching Microservices
+Cache your data among microservice instances using Hazelcast.
+
 [.guides-grid]
 == {empty}
-
 
 [.guide]
 === xref:hazelcast-embedded-springboot:ROOT:index.adoc[Hazelcast in SpringBoot]
@@ -16,29 +20,9 @@ You can find the guides on various use cases of Hazelcast integrations here!
 Getting Started with Hazelcast using Spring Boot.
 
 [.guide]
-=== xref:hazelcast-hibernate-springboot:ROOT:index.adoc[Hazelcast L2C for Hibernate in SpringBoot]
-
-Getting Started with Hazelcast and Hibernate Second-Level Cache.
-
-[.guide]
-=== xref:hazelcast-hibernate-jcache-l2c:ROOT:index.adoc[Using JCache for Hibernate L2C]
-
-Jcache SPI for using Hazelcast as L2C for Hibernate.
-
-[.guide]
-=== xref:hazelcast-istio:ROOT:index.adoc[Hazelcast with Istio Service Mesh]
-
-Use Hazelcast Embedded and Client/Server topologies in Istio Service Mesh.
-
-[.guide]
 === xref:hazelcast-embedded-micronaut:ROOT:index.adoc[Hazelcast in Micronaut]
 
 Getting Started with Hazelcast using Micronaut.
-
-[.guide]
-=== xref:hazelcast-embedded-kubernetes:ROOT:index.adoc[Hazelcast with SpringBoot in Kubernetes]
-
-Getting Started with Embedded Hazelcast on Kubernetes.
 
 [.guide]
 === xref:hazelcast-microprofile:ROOT:index.adoc[Hazelcast in Microprofile]
@@ -50,20 +34,60 @@ Getting Started with Hazelcast using Microprofile.
 
 Getting Started with Hazelcast using Quarkus.
 
+
+
+[.group-header]
+== Hibernate L2C
+Use Hibernate's Second Level Cache backed by Hazelcast.
+[.guides-grid]
+== {empty}
+
+[.guide]
+=== xref:hazelcast-hibernate-springboot:ROOT:index.adoc[Hazelcast L2C for Hibernate in SpringBoot]
+
+Getting Started with Hazelcast and Hibernate Second-Level Cache.
+
+[.guide]
+=== xref:hazelcast-hibernate-jcache-l2c:ROOT:index.adoc[Using JCache for Hibernate L2C]
+
+Jcache SPI for using Hazelcast as L2C for Hibernate.
+
+
+[.group-header]
+== Other
+[.guides-grid]
+== {empty}
+
+
+[.guide]
+=== xref:hazelcast-istio:ROOT:index.adoc[Hazelcast with Istio Service Mesh]
+
+Use Hazelcast Embedded and Client/Server topologies in Istio Service Mesh.
+
+
+[.guide]
+=== xref:hazelcast-embedded-kubernetes:ROOT:index.adoc[Hazelcast with SpringBoot in Kubernetes]
+
+Getting Started with Embedded Hazelcast on Kubernetes.
+
+
 [.guide]
 === xref:springboot-session-replication:ROOT:index.adoc[Session Replication with Spring Boot and Hazelcast]
 
 Getting Started with Hazelcast using Session Replication in Spring Boot.
+
 
 [.guide]
 === xref:springboot-caching:ROOT:index.adoc[Caching with Spring Boot and Hazelcast]
 
 Getting Started with Hazelcast as Cache Manager in Spring Boot.
 
+
 [.guide]
 === xref:hazelcast-embedded-ecs:ROOT:index.adoc[Getting Started with Embedded Hazelcast on ECS]
 
 Getting Started with Hazelcast on ECS.
+
 
 [.guide]
 === xref:striim-hazelcast-cdc:ROOT:index.adoc[Load data from Oracle CDC to Hazelcast via Striim]

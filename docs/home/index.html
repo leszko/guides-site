@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Hazelcast Guides :: Hazelcast Guides</title>
     <link rel="canonical" href="https://hazelcast.org/home/index.html">
-    <meta name="generator" content="Antora 2.2.0">
+    <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
   <body class="article">
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
+      <img
+        class="logo"
+        alt="Hazelcast"
+        srcset="../_/img/hazelcast-logo-white.png 1x, ../_/img/hazelcast-logo-white@2x.png 2x, ../_/img/hazelcast-logo-white@3x.png 3x"
+      />
       <a class="navbar-item">Hazelcast Guides</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
@@ -51,7 +56,14 @@
             <a class="button is-primary" href="https://hazelcast.org/">hazelcast.org</a>
           </span>
         </div -->
-        <a class="navbar-item" href="https://hazelcast.org/">hazelcast.org</a>
+        <a class="navbar-item" href="https://hazelcast.org/">
+          hazelcast.org
+          <img
+            class="external-link"
+            alt="Hazelcast"
+            srcset="../_/img/external-link.png 1x, ../_/img/external-link@2x.png 2x, ../_/img/external-link@3x.png 3x"
+          />
+        </a>
       </div>
     </div>
   </nav>
@@ -62,13 +74,8 @@
 <button class="nav-toggle"></button>
   <a href="index.html" class="home-link is-current"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
-  <ul>
-    <li>
-    Hazelcast Guides
-    </li>
-  </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///Users/hasancelik/git/guides-site/home/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///Users/enesozcan/Desktop/dev/hazelcast-guides-org/guides-site/home/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
 </div>
  -->
   <div class="content">
@@ -84,6 +91,14 @@
 </div>
 </div>
 </div>
+<div class="sect1 group-header">
+<h2 id="_caching_microservices"><a class="anchor" href="#_caching_microservices"></a>Caching Microservices</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cache your data among microservice instances using Hazelcast.</p>
+</div>
+</div>
+</div>
 <div class="sect1 guides-grid">
 <h2 id=""><a class="anchor" href="#"></a></h2>
 <div class="sectionbody">
@@ -94,33 +109,9 @@
 </div>
 </div>
 <div class="sect2 guide">
-<h3 id="_hazelcast_l2c_for_hibernate_in_springboot"><a class="anchor" href="#_hazelcast_l2c_for_hibernate_in_springboot"></a><a href="../hazelcast-hibernate-springboot/index.html" class="page">Hazelcast L2C for Hibernate in SpringBoot</a></h3>
-<div class="paragraph">
-<p>Getting Started with Hazelcast and Hibernate Second-Level Cache.</p>
-</div>
-</div>
-<div class="sect2 guide">
-<h3 id="_using_jcache_for_hibernate_l2c"><a class="anchor" href="#_using_jcache_for_hibernate_l2c"></a><a href="../hazelcast-hibernate-jcache-l2c/index.html" class="page">Using JCache for Hibernate L2C</a></h3>
-<div class="paragraph">
-<p>Jcache SPI for using Hazelcast as L2C for Hibernate.</p>
-</div>
-</div>
-<div class="sect2 guide">
-<h3 id="_hazelcast_with_istio_service_mesh"><a class="anchor" href="#_hazelcast_with_istio_service_mesh"></a><a href="../hazelcast-istio/index.html" class="page">Hazelcast with Istio Service Mesh</a></h3>
-<div class="paragraph">
-<p>Use Hazelcast Embedded and Client/Server topologies in Istio Service Mesh.</p>
-</div>
-</div>
-<div class="sect2 guide">
 <h3 id="_hazelcast_in_micronaut"><a class="anchor" href="#_hazelcast_in_micronaut"></a><a href="../hazelcast-embedded-micronaut/index.html" class="page">Hazelcast in Micronaut</a></h3>
 <div class="paragraph">
 <p>Getting Started with Hazelcast using Micronaut.</p>
-</div>
-</div>
-<div class="sect2 guide">
-<h3 id="_hazelcast_with_springboot_in_kubernetes"><a class="anchor" href="#_hazelcast_with_springboot_in_kubernetes"></a><a href="../hazelcast-embedded-kubernetes/index.html" class="page">Hazelcast with SpringBoot in Kubernetes</a></h3>
-<div class="paragraph">
-<p>Getting Started with Embedded Hazelcast on Kubernetes.</p>
 </div>
 </div>
 <div class="sect2 guide">
@@ -133,6 +124,54 @@
 <h3 id="_hazelcast_client_for_quarkus"><a class="anchor" href="#_hazelcast_client_for_quarkus"></a><a href="../hazelcast-quarkus/index.html" class="page">Hazelcast Client for Quarkus</a></h3>
 <div class="paragraph">
 <p>Getting Started with Hazelcast using Quarkus.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1 group-header">
+<h2 id="_hibernate_l2c"><a class="anchor" href="#_hibernate_l2c"></a>Hibernate L2C</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use Hibernate&#8217;s Second Level Cache backed by Hazelcast.</p>
+</div>
+</div>
+</div>
+<div class="sect1 guides-grid">
+<h2 id="_2"><a class="anchor" href="#_2"></a></h2>
+<div class="sectionbody">
+<div class="sect2 guide">
+<h3 id="_hazelcast_l2c_for_hibernate_in_springboot"><a class="anchor" href="#_hazelcast_l2c_for_hibernate_in_springboot"></a><a href="../hazelcast-hibernate-springboot/index.html" class="page">Hazelcast L2C for Hibernate in SpringBoot</a></h3>
+<div class="paragraph">
+<p>Getting Started with Hazelcast and Hibernate Second-Level Cache.</p>
+</div>
+</div>
+<div class="sect2 guide">
+<h3 id="_using_jcache_for_hibernate_l2c"><a class="anchor" href="#_using_jcache_for_hibernate_l2c"></a><a href="../hazelcast-hibernate-jcache-l2c/index.html" class="page">Using JCache for Hibernate L2C</a></h3>
+<div class="paragraph">
+<p>Jcache SPI for using Hazelcast as L2C for Hibernate.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1 group-header">
+<h2 id="_other"><a class="anchor" href="#_other"></a>Other</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1 guides-grid">
+<h2 id="_3"><a class="anchor" href="#_3"></a></h2>
+<div class="sectionbody">
+<div class="sect2 guide">
+<h3 id="_hazelcast_with_istio_service_mesh"><a class="anchor" href="#_hazelcast_with_istio_service_mesh"></a><a href="../hazelcast-istio/index.html" class="page">Hazelcast with Istio Service Mesh</a></h3>
+<div class="paragraph">
+<p>Use Hazelcast Embedded and Client/Server topologies in Istio Service Mesh.</p>
+</div>
+</div>
+<div class="sect2 guide">
+<h3 id="_hazelcast_with_springboot_in_kubernetes"><a class="anchor" href="#_hazelcast_with_springboot_in_kubernetes"></a><a href="../hazelcast-embedded-kubernetes/index.html" class="page">Hazelcast with SpringBoot in Kubernetes</a></h3>
+<div class="paragraph">
+<p>Getting Started with Embedded Hazelcast on Kubernetes.</p>
 </div>
 </div>
 <div class="sect2 guide">
@@ -166,7 +205,7 @@
 </main>
 </div>
   </body>
-  <!--footer class="footer">
+  <footer class="footer">
 <footer class="footer">
   <a href="https://www.hazelcast.org" class="icon">
     <img src="../_/img/hazelcast.png" alt="Hazelcast">
@@ -174,5 +213,5 @@
 </footer>
 <script src="../_/js/site.js"></script>
 <script async src="../_/js/vendor/highlight.js"></script>
-  </footer-->
+  </footer>
 </html>
