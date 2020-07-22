@@ -4,7 +4,6 @@
 
 You can find the guides on various use cases of Hazelcast integrations here!
 
-*_(Work-in-progress)_*
 
 
 [.group-header]
