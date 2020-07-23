@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Untitled :: Hazelcast Guides</title>
+    <title>Load data from Oracle CDC to Hazelcast via Striim :: Hazelcast Guides</title>
     <link rel="canonical" href="https://hazelcast.org/striim-hazelcast-cdc/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
@@ -206,14 +206,20 @@ from nav.
 </div>
   <div class="content">
 <article class="guide-content">
-<div class="sect1">
-<h2 id="_load_data_from_oracle_cdc_to_hazelcast_via_striim"><a class="anchor" href="#_load_data_from_oracle_cdc_to_hazelcast_via_striim"></a>Load data from Oracle CDC to Hazelcast via Striim</h2>
+<h1 class="page">Load data from Oracle CDC to Hazelcast via Striim</h1>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This guide explains How to use Hazelcast Striim Writer to cache data stored in Oracle Database Enterprise Edition(12.2.0.1).</p>
+<p>This guide explains how to use Hazelcast Striim Writer to cache data stored in Oracle Database Enterprise Edition (12.2.0.1).</p>
 </div>
-<div class="sect2">
-<h3 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h3>
+<div class="paragraph">
+<p>You can see the whole project <a href="https://github.com/hazelcast-guides/striim-hazelcast-cdc">here.</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
@@ -225,8 +231,10 @@ from nav.
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_installation"><a class="anchor" href="#_installation"></a>Installation</h3>
+</div>
+<div class="sect1">
+<h2 id="_installation"><a class="anchor" href="#_installation"></a>Installation</h2>
+<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
@@ -240,79 +248,88 @@ from nav.
 </li>
 </ul>
 </div>
-<div class="sect3">
-<h4 id="_striim"><a class="anchor" href="#_striim"></a>Striim</h4>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_striim"><a class="anchor" href="#_striim"></a>Striim</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Striim is an end-to-end streaming platform for real-time integration and analytics of data. This guide uses Striim evaluation version hosted at <a href="https://hub.docker.com/r/striim/evalversion/">Striim DockerHub</a></p>
+<p>Striim is an end-to-end streaming platform for real-time integration and analytics of data. This guide uses Striim evaluation version hosted at <a href="https://hub.docker.com/r/striim/evalversion/">Striim DockerHub</a>.</p>
 </div>
 <div class="paragraph">
-<p>To run Striim evaluation version, run following docker commands:</p>
+<p>To run Striim evaluation version, run the following docker commands:</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>$ docker pull striim/evalversion
-$ docker run -d --name striim -p 9080:9080 -e "STRIIM_ACCEPT_EULA=Y"  striim/evalversion</pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ docker pull striim/evalversion
+$ docker run -d --name striim -p 9080:9080 -e "STRIIM_ACCEPT_EULA=Y"  striim/evalversion</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Make sure that Striim started properly:</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>$ docker logs striim -f
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ docker logs striim -f
 ...
 started.
-Please go to http://172.17.0.2:9080 or https://172.17.0.2:9081 to administer, or use console</pre>
+Please go to http://172.17.0.2:9080 or https://172.17.0.2:9081 to administer, or use console</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>That is excerpt from Striim DockerHub Page if you experience an expired license key issue.</p>
+<p>That is the excerpt from Striim DockerHub Page if you experience an expired license key issue:</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>Note: This docker image is an evaluation version which comes with a trial license valid for 15 days and single node. Any docker image older than 15 days would not work. We try and keep pushing our latest releases on docker hub. But in case, you don't see an image within 15 days or if you need extended license, please contact support@striim.com</pre>
+<pre>Note: This docker image is an evaluation version which comes with a trial license valid for
+15 days and single node. Any docker image older than 15 days would not work. We try and keep
+pushing our latest releases on docker hub. But in case, you don't see an image within 15
+days or if you need extended license, please contact support@striim.com</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If everything goes well then Striim dashboard will be available under <a href="http://localhost:9080" class="bare">http://localhost:9080</a>. You can use <code>admin/admin</code> as a credentials.</p>
+<p>If everything goes well then Striim dashboard will be available under <a href="http://localhost:9080" class="bare">http://localhost:9080</a>. You can use <code>admin/admin</code> as credentials.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_oracle_database_enterprise_edition"><a class="anchor" href="#_oracle_database_enterprise_edition"></a>Oracle Database Enterprise Edition</h4>
+</div>
+<div class="sect1">
+<h2 id="_oracle_database_enterprise_edition"><a class="anchor" href="#_oracle_database_enterprise_edition"></a>Oracle Database Enterprise Edition</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Oracle Database Docker Hub Page contains a docker Image as container option for Oracle Database. Visit <a href="https://hub.docker.com/_/oracle-database-enterprise-edition">Oracle Database Docker Hub Page</a> and click on <code>Proceed Checkout</code>. This will subscribe you to Developer Tier.</p>
+<p>Oracle Database Docker Hub Page contains a Docker image as container option for Oracle Database. Visit <a href="https://hub.docker.com/_/oracle-database-enterprise-edition">Oracle Database Docker Hub Page</a> and click on <code>Proceed Checkout</code>. This will subscribe you to Developer Tier.</p>
 </div>
 <div class="paragraph">
 <p>Make sure you are logged in to DockerHub:</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>$ docker login
+<pre class="highlightjs highlight"><code>$ docker login
 Authenticating with existing credentials...
-Login Succeeded</pre>
+Login Succeeded</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Run Oracle Database in a Docker Container:</p>
+<p>Run Oracle Database in a Docker container:</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>$ docker pull store/oracle/database-enterprise:12.2.0.1
-$ docker run -d -p 8080:8080 -p 1521:1521 --name oracledb store/oracle/database-enterprise:12.2.0.1</pre>
+<pre class="highlightjs highlight"><code>$ docker pull store/oracle/database-enterprise:12.2.0.1
+$ docker run -d -p 8080:8080 -p 1521:1521 --name oracledb store/oracle/database-enterprise:12.2.0.1</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Check logs until you see <code>SQL&gt; ORACLE instance started.</code></p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>$ watch docker logs oracledb</pre>
+<pre class="highlightjs highlight"><code>$ watch docker logs oracledb</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_hazelcast_and_management_center"><a class="anchor" href="#_hazelcast_and_management_center"></a>Hazelcast and Management Center</h3>
+<div class="sect1">
+<h2 id="_hazelcast_and_management_center"><a class="anchor" href="#_hazelcast_and_management_center"></a>Hazelcast and Management Center</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Start Hazelcast member and Management Center containers:</p>
 </div>
@@ -343,8 +360,10 @@ store/oracle/database-enterprise:12.2.0.1   Up 25 minutes (healthy)   0.0.0.0:15
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_configuring_oracle_database"><a class="anchor" href="#_configuring_oracle_database"></a>Configuring Oracle Database</h3>
+</div>
+<div class="sect1">
+<h2 id="_configuring_oracle_database"><a class="anchor" href="#_configuring_oracle_database"></a>Configuring Oracle Database</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Connect to Oracle DB:</p>
 </div>
@@ -357,19 +376,18 @@ $ SQL&gt; conn sys as sysdba;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Enable <code>ARCHIVELOG</code> by following this [link]
-(<a href="https://www.striim.com/docs/en/enabling-archivelog.html" class="bare">https://www.striim.com/docs/en/enabling-archivelog.html</a>)</p>
+<p>Enable <code>ARCHIVELOG</code> by following this <a href="https://www.striim.com/docs/en/enabling-archivelog.html">link</a>.</p>
 </div>
 <div class="paragraph">
-<p>Enable <code>SUPPLEMENTAL LOG DATA</code> by following this [link]
-(<a href="https://www.striim.com/docs/en/enabling-supplemental-log-data.html" class="bare">https://www.striim.com/docs/en/enabling-supplemental-log-data.html</a>)</p>
+<p>Enable <code>SUPPLEMENTAL LOG DATA</code> by following this
+<a href="https://www.striim.com/docs/en/enabling-supplemental-log-data.html">link</a>.</p>
 </div>
 <div class="paragraph">
 <p>Create an Oracle User with LogMiner Privileges</p>
 </div>
-<div class="literalblock">
+<div class="listingblock">
 <div class="content">
-<pre>create role c##striim_privs;
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">create role c##striim_privs;
 grant create session,execute_catalog_role,select any transaction,select any dictionary,logmining to c##striim_privs;
 grant select on SYSTEM.LOGMNR_COL$ to c##striim_privs;
 grant select on SYSTEM.LOGMNR_OBJ$ to c##striim_privs;
@@ -377,7 +395,7 @@ grant select on SYSTEM.LOGMNR_USER$ to c##striim_privs;
 grant select on SYSTEM.LOGMNR_UID$ to c##striim_privs;
 create user c##striim identified by striim container=all;
 grant c##striim_privs to c##striim container=all;
-alter user c##striim set container_data = (cdb$root, ORCLPDB1) container=current;</pre>
+alter user c##striim set container_data = (cdb$root, ORCLPDB1) container=current;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -395,7 +413,7 @@ $ SQL&gt; alter user striim default role dba;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Create create <code>PRODUCT_INV</code> table with striim user:</p>
+<p>Create <code>PRODUCT_INV</code> table with Striim user:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -407,8 +425,10 @@ $ SQL&gt; create table STRIIM.PRODUCT_INV(SKU NUMBER(19) not null primary key, L
 <p>We will use/populate the newly created table at next steps. By the way, this user will be used by our Spring application.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_configuring_striim"><a class="anchor" href="#_configuring_striim"></a>Configuring Striim</h3>
+</div>
+<div class="sect1">
+<h2 id="_configuring_striim"><a class="anchor" href="#_configuring_striim"></a>Configuring Striim</h2>
+<div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -422,7 +442,7 @@ $ docker exec -it striim chmod +x /opt/striim/lib/ojdbc8.jar</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>install the jar into your local maven repository</p>
+<p>Install the jar into your local maven repository</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -461,14 +481,16 @@ $ docker exec -it striim chmod +x /opt/striim/lib/pojo-0.0.1-SNAPSHOT.jar</code>
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ docker restart striim</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>=== Install OracleHazelcastCDC App into Striim</p>
-</div>
 </li>
 </ol>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_install_oraclehazelcastcdc_app_into_striim"><a class="anchor" href="#_install_oraclehazelcastcdc_app_into_striim"></a>Install OracleHazelcastCDC App into Striim</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>In previous sections, we installed required software for the sample application. We now will install OracleHazelcastCDC app through Striim dashboard. There are two ways to install OracleHazelcastCDC App. We recommend to use <code>Using TQL file (Quick Setup)</code></p>
+<p>In the previous sections, we installed required software for the sample application. We now will install OracleHazelcastCDC app through Striim dashboard. There are two ways to install OracleHazelcastCDC App. We recommend to use <code>Using TQL file (Quick Setup)</code></p>
 </div>
 <div class="ulist">
 <ul>
@@ -481,8 +503,10 @@ $ docker exec -it striim chmod +x /opt/striim/lib/pojo-0.0.1-SNAPSHOT.jar</code>
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_configuring_oracle_database_cdc_connection_using_tql_file_quick_setup"><a class="anchor" href="#_configuring_oracle_database_cdc_connection_using_tql_file_quick_setup"></a>Configuring Oracle Database CDC connection Using TQL file (Quick Setup)</h3>
+</div>
+<div class="sect1">
+<h2 id="_configuring_oracle_database_cdc_connection_using_tql_file_quick_setup"><a class="anchor" href="#_configuring_oracle_database_cdc_connection_using_tql_file_quick_setup"></a>Configuring Oracle Database CDC connection Using TQL file (Quick Setup)</h2>
+<div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -498,8 +522,10 @@ $ docker exec -it striim chmod +x /opt/striim/lib/pojo-0.0.1-SNAPSHOT.jar</code>
 </ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_configuring_oracle_database_cdc_connection_on_striim_dashboard"><a class="anchor" href="#_configuring_oracle_database_cdc_connection_on_striim_dashboard"></a>Configuring Oracle Database CDC connection on Striim dashboard</h3>
+</div>
+<div class="sect1">
+<h2 id="_configuring_oracle_database_cdc_connection_on_striim_dashboard"><a class="anchor" href="#_configuring_oracle_database_cdc_connection_on_striim_dashboard"></a>Configuring Oracle Database CDC connection on Striim dashboard</h2>
+<div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -515,33 +541,51 @@ $ docker exec -it striim chmod +x /opt/striim/lib/pojo-0.0.1-SNAPSHOT.jar</code>
 </div>
 </li>
 <li>
-<p>Enter your Oracle DB data and credentials:
-image::oracle_reader_1.png[DB Connection Creds]
-image::oracle_reader_2.png[DB Connection Control]</p>
+<p>Enter your Oracle DB data and credentials:</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/oracle_reader_1.png" alt="DB Connection Creds">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/oracle_reader_2.png" alt="DB Connection Control">
+</div>
+</div>
 <div class="ulist">
 <ul>
 <li>
 <p><code>localhost</code> or <code>IP address of oracledb container</code> does not work for <code>Connection URL</code> so you need to use your HOST IP address.</p>
 </li>
 <li>
-<p>As you can see above, service section of <code>Connection URL</code> is configured as a <code>/orclpdb1.localdomain</code>, not as <code>:ORCLCDB</code>. If you configure service as a <code>:ORCLCDB</code>, <code>STRIIM</code> application or <code>C##STRIIM</code> common user can not reach/list <code>PRODUCT_INV</code> table which is under <code>STRIIM</code> local user because of <code>CDB specific</code> bug at Striim template itself. We will update these infos with the correct ones before deploy the application. By the way, we have already contacted with them and reported this issue. They will provide to fix at future releases. If you use Oracle DB <strong>without CDB</strong>, you are not affect bt this issue.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Select source table:
-image::oracle_reader_3.png[Source Table]</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_configuring_hazelcast_writer_on_striim_dashboard"><a class="anchor" href="#_configuring_hazelcast_writer_on_striim_dashboard"></a>Configuring Hazelcast Writer on Striim dashboard</h3>
+<p>As you can see above, service section of <code>Connection URL</code> is configured as a <code>/orclpdb1.localdomain</code>, not as <code>:ORCLCDB</code>. If you configure service as a <code>:ORCLCDB</code>, <code>STRIIM</code> application or <code>C##STRIIM</code> common user can not reach/list <code>PRODUCT_INV</code> table which is under <code>STRIIM</code> local user because of <code>CDB specific</code> bug at Striim template itself. We will update these infos with the correct ones before deploy the application. By the way, we have already contacted with them and reported this issue. They will provide to fix at future releases. If you use Oracle DB <strong>without CDB</strong>, you are not affected by this issue.</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Put ORM file location(<code>/opt/striim/product_inv_orm.xml</code>) and Hazelcast cluster infos:</p>
+<p>Select source table:</p>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/oracle_reader_3.png" alt="Source Table">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuring_hazelcast_writer_on_striim_dashboard"><a class="anchor" href="#_configuring_hazelcast_writer_on_striim_dashboard"></a>Configuring Hazelcast Writer on Striim dashboard</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Put ORM file location(<code>/opt/striim/product_inv_orm.xml</code>) and Hazelcast cluster info:</p>
 <div class="imageblock">
 <div class="content">
 <img src="_images/hazelcast_writer_1.png" alt="Hazelcast Connection">
@@ -567,8 +611,10 @@ image::oracle_reader_3.png[Source Table]</p>
 </ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_apply_oraclereader_changes_and_deployrun_the_cdc_application"><a class="anchor" href="#_apply_oraclereader_changes_and_deployrun_the_cdc_application"></a>Apply OracleReader changes and Deploy&amp;Run the CDC application</h3>
+</div>
+<div class="sect1">
+<h2 id="_apply_oraclereader_changes_and_deploy_run_the_cdc_application"><a class="anchor" href="#_apply_oraclereader_changes_and_deploy_run_the_cdc_application"></a>Apply OracleReader changes and Deploy &amp; Run the CDC application</h2>
+<div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -598,8 +644,10 @@ image::oracle_reader_3.png[Source Table]</p>
 </ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_start_spring_boot_application_to_populate_a_database"><a class="anchor" href="#_start_spring_boot_application_to_populate_a_database"></a>Start Spring Boot Application to populate a database</h3>
+</div>
+<div class="sect1">
+<h2 id="_start_spring_boot_application_to_populate_a_database"><a class="anchor" href="#_start_spring_boot_application_to_populate_a_database"></a>Start Spring Boot Application to populate a database</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Run <code>spring-boot</code> application:</p>
 </div>
@@ -609,8 +657,10 @@ image::oracle_reader_3.png[Source Table]</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_check_up"><a class="anchor" href="#_check_up"></a>Check up</h3>
+</div>
+<div class="sect1">
+<h2 id="_check_up"><a class="anchor" href="#_check_up"></a>Check up</h2>
+<div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -630,7 +680,6 @@ image::oracle_reader_3.png[Source Table]</p>
 </div>
 </li>
 </ol>
-</div>
 </div>
 </div>
 </div>
