@@ -4,64 +4,67 @@
 
 You can find the guides on various use cases of Hazelcast integrations here!
 
-
+// ---------------------- Group 1
 
 [.group-header]
-== Caching Microservices
-Cache your data among microservice instances using Hazelcast.
+== Getting Started
+Start using Hazelcast in your applications.
 
 [.guides-grid]
 == {empty}
 
 [.guide]
-=== xref:hazelcast-embedded-springboot:ROOT:index.adoc[Hazelcast in SpringBoot]
+=== xref:hazelcast-embedded-springboot:ROOT:index.adoc[Hazelcast with SpringBoot]
 
 Getting Started with Hazelcast using Spring Boot.
 
-[.guide]
-=== xref:hazelcast-embedded-micronaut:ROOT:index.adoc[Hazelcast in Micronaut]
-
-Getting Started with Hazelcast using Micronaut.
 
 [.guide]
-=== xref:hazelcast-microprofile:ROOT:index.adoc[Hazelcast in Microprofile]
+=== xref:hazelcast-microprofile:ROOT:index.adoc[Hazelcast with Microprofile]
 
 Getting Started with Hazelcast using Microprofile.
 
+
 [.guide]
-=== xref:hazelcast-quarkus:ROOT:index.adoc[Hazelcast Client for Quarkus]
+=== xref:hazelcast-quarkus:ROOT:index.adoc[Hazelcast Client with Quarkus]
 
 Getting Started with Hazelcast using Quarkus.
 
-
-
-[.group-header]
-== Hibernate L2C
-Use Hibernate's Second Level Cache backed by Hazelcast.
-[.guides-grid]
-== {empty}
-
-[.guide]
-=== xref:hazelcast-hibernate-springboot:ROOT:index.adoc[Hazelcast L2C for Hibernate in SpringBoot]
-
-Getting Started with Hazelcast and Hibernate Second-Level Cache.
-
-[.guide]
-=== xref:hazelcast-hibernate-jcache-l2c:ROOT:index.adoc[Using JCache for Hibernate L2C]
-
-Jcache SPI for using Hazelcast as L2C for Hibernate.
-
+// ---------------------- Group 2
 
 [.group-header]
-== Other
+== Caching Microservices
+Cache your data via Hazelcast in microservices.
+
 [.guides-grid]
 == {empty}
 
 
 [.guide]
-=== xref:hazelcast-istio:ROOT:index.adoc[Hazelcast with Istio Service Mesh]
+=== xref:hazelcast-embedded-micronaut:ROOT:index.adoc[Caching in Micronaut Microservices]
 
-Use Hazelcast Embedded and Client/Server topologies in Istio Service Mesh.
+Cache data with Hazelcast in Micronaut.
+
+[.guide]
+=== xref:springboot-caching:ROOT:index.adoc[Caching in SpringBoot Microservices]
+
+Use Hazelcast as Cache Manager in Spring Boot.
+
+
+// ---------------------- Group 3
+
+[.group-header]
+== Cloud Deployments
+Use Hazelcast in your cloud architecture.
+
+[.guides-grid]
+== {empty}
+
+
+[.guide]
+=== xref:hazelcast-embedded-ecs:ROOT:index.adoc[Embedded Hazelcast on ECS]
+
+Getting Started with Hazelcast on ECS.
 
 
 [.guide]
@@ -71,24 +74,39 @@ Getting Started with Embedded Hazelcast on Kubernetes.
 
 
 [.guide]
+=== xref:hazelcast-istio:ROOT:index.adoc[Hazelcast with Istio Service Mesh]
+
+Getting Started with Hazelcast Embedded and Client/Server topologies in Istio Service Mesh.
+
+
+
+// ---------------------- Group 4
+
+[.group-header]
+== Tutorials
+
+[.guides-grid]
+== {empty}
+
+[.guide]
 === xref:springboot-session-replication:ROOT:index.adoc[Session Replication with Spring Boot and Hazelcast]
 
 Getting Started with Hazelcast using Session Replication in Spring Boot.
 
 
 [.guide]
-=== xref:springboot-caching:ROOT:index.adoc[Caching with Spring Boot and Hazelcast]
+=== xref:hazelcast-hibernate-springboot:ROOT:index.adoc[Hazelcast L2C for Hibernate in SpringBoot]
 
-Getting Started with Hazelcast as Cache Manager in Spring Boot.
-
-
-[.guide]
-=== xref:hazelcast-embedded-ecs:ROOT:index.adoc[Getting Started with Embedded Hazelcast on ECS]
-
-Getting Started with Hazelcast on ECS.
+Getting Started with Hazelcast and Hibernate Second-Level Cache.
 
 
 [.guide]
-=== xref:striim-hazelcast-cdc:ROOT:index.adoc[Load data from Oracle CDC to Hazelcast via Striim]
+=== xref:hazelcast-hibernate-jcache-l2c:ROOT:index.adoc[Using JCache for Hibernate L2C]
 
-Load data from Oracle CDC to Hazelcast via Striim
+Jcache SPI for using Hazelcast as L2C for Hibernate.
+
+
+[.guide]
+=== xref:striim-hazelcast-cdc:ROOT:index.adoc[Oracle CDC and Hazelcast via Striim]
+
+Load data from Oracle CDC to Hazelcast via Striim.
