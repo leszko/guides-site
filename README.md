@@ -3,14 +3,14 @@
 - In the guide repository to be published, create `antora` files:
 
 ```
-antora
+doc
 ├── antora.yml
 └── modules
     └── ROOT
         └── pages
             └── index.adoc
 ```
-This files can be in a separate branch or located in a different root directory. In this case, they need to be specified in `antora-playbook.yml`.
+This files can be in a separate branch or located in a different root directory. In this case, they need to be specified in `antora-playbook.yml`. But `doc` directory and `master` branch are the standards for the guides.
 
 - In `home/modules/ROOT/pages/index.adoc`, include the new guide:
 
