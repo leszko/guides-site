@@ -79,6 +79,12 @@ Getting Started with Embedded Hazelcast on Kubernetes.
 
 
 [.guide]
+=== xref:caching-micronaut-microservices-on-kubernetes:ROOT:index.adoc[Hazelcast with Micronaut in Kubernetes]
+
+Getting Started with Micronaut Hazelcast Caching on Kubernetes.
+
+
+[.guide]
 === xref:hazelcast-istio:ROOT:index.adoc[Hazelcast with Istio Service Mesh]
 
 Getting Started with Hazelcast Embedded and Client/Server topologies in Istio Service Mesh.
