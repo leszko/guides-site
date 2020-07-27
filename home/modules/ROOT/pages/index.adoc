@@ -50,6 +50,11 @@ Cache data with Hazelcast in Micronaut.
 
 Use Hazelcast as Cache Manager in Spring Boot.
 
+[.guide]
+=== xref:springboot-jcache:ROOT:index.adoc[Caching in SpringBoot Microservices via JCache Provider]
+
+Use Hazelcast via JCache provider in Spring Boot.
+
 
 // ---------------------- Group 3
 

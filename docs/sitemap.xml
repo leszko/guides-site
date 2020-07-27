@@ -34,6 +34,9 @@
 <loc>https://hazelcast.org/sitemap-springboot-caching.xml</loc>
 </sitemap>
 <sitemap>
+<loc>https://hazelcast.org/sitemap-springboot-jcache.xml</loc>
+</sitemap>
+<sitemap>
 <loc>https://hazelcast.org/sitemap-springboot-session-replication.xml</loc>
 </sitemap>
 <sitemap>
