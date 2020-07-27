@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <sitemap>
+<loc>https://hazelcast.org/sitemap-caching-micronaut-microservices-on-kubernetes.xml</loc>
+</sitemap>
+<sitemap>
 <loc>https://hazelcast.org/sitemap-hazelcast-embedded-ecs.xml</loc>
 </sitemap>
 <sitemap>
