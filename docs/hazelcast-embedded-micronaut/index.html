@@ -318,7 +318,7 @@ public class HazelcastAdditionalSettings
 
     public HazelcastMemberConfiguration onCreated(BeanCreatedEvent&lt;HazelcastMemberConfiguration&gt; event) {
         HazelcastMemberConfiguration configuration = event.getBean();
-        configuration.getGroupConfig().setName("micronaut-cluster");
+        configuration.setClusterName("micronaut-cluster");
         JoinConfig joinConfig = configuration.getNetworkConfig().getJoin();
         joinConfig.getMulticastConfig().setEnabled(false);
         joinConfig.getTcpIpConfig().setEnabled(true).addMember("localhost");
@@ -343,15 +343,29 @@ public class HazelcastAdditionalSettings
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>mvn clean package</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">mvn clean package</code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The very first request to each application instance will take a bit longer time to respond since the first request causes Hazelcast instance to be started.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Run the application by typing</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>java -jar target/hazelcast-embeddded-micronaut-0.1.0.jar 8080</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">java -jar target/hazelcast-embedded-micronaut-0.1.0.jar 8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -359,7 +373,7 @@ public class HazelcastAdditionalSettings
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>java -jar target/hazelcast-embeddded-micronaut-0.1.0.jar 8081</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">java -jar target/hazelcast-embedded-micronaut-0.1.0.jar 8081</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -367,7 +381,7 @@ public class HazelcastAdditionalSettings
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>curl --data "key=key1&amp;value=hazelcast" "localhost:8080/put"</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">curl  "localhost:8080/put?key=key1&amp;value=hazelcast"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -375,7 +389,7 @@ public class HazelcastAdditionalSettings
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>curl "localhost:8081/get?key=key1"</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">curl "localhost:8081/get?key=key1"</code></pre>
 </div>
 </div>
 <div class="paragraph">
