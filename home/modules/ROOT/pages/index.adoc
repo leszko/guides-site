@@ -2,7 +2,7 @@
 
 = Hazelcast Guides
 
-You can find the guides on various use cases of Hazelcast integrations here!
+Get productive with Hazelcast integrations!
 
 // ---------------------- Group 1
 
