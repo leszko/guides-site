@@ -46,6 +46,9 @@
 <loc>https://hazelcast.org/sitemap-springboot-tomcat-session-replication.xml</loc>
 </sitemap>
 <sitemap>
+<loc>https://hazelcast.org/sitemap-springboot-tomcat-session-replication-on-kubernetes.xml</loc>
+</sitemap>
+<sitemap>
 <loc>https://hazelcast.org/sitemap-striim-hazelcast-cdc.xml</loc>
 </sitemap>
 <sitemap>
