@@ -90,6 +90,11 @@ Getting Started with Micronaut Hazelcast Caching on Kubernetes.
 Getting Started with Hazelcast Embedded and Client/Server topologies in Istio Service Mesh.
 
 
+[.guide]
+=== xref:springboot-tomcat-session-replication-on-kubernetes:ROOT:index.adoc[SpringBoot Tomcat Session Replication in Kubernetes]
+
+Getting Started with Hazelcast using Session Manager Based Session Replication in Spring Boot deployed on Kubernetes.
+
 
 // ---------------------- Group 4
 
