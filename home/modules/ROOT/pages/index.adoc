@@ -102,7 +102,13 @@ Getting Started with Hazelcast Embedded and Client/Server topologies in Istio Se
 [.guide]
 === xref:springboot-session-replication:ROOT:index.adoc[Session Replication with Spring Boot and Hazelcast]
 
-Getting Started with Hazelcast using Session Replication in Spring Boot.
+Getting Started with Hazelcast using Web Filter Based Session Replication in Spring Boot.
+
+
+[.guide]
+=== xref:springboot-tomcat-session-replication:ROOT:index.adoc[Tomcat Session Replication with Spring Boot and Hazelcast]
+
+Getting Started with Hazelcast using Session Manager Based Session Replication in Spring Boot.
 
 
 [.guide]

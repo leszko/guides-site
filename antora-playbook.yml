@@ -51,6 +51,9 @@ content:
     - url: https://github.com/hazelcast-guides/caching-micronaut-microservices-on-kubernetes
       branches: master
       start_path: doc
+    - url: https://github.com/hazelcast-guides/springboot-tomcat-session-replication
+      branches: master
+      start_path: doc
 ui:
   bundle:
     url: https://github.com/hazelcast-guides/guides-ui/releases/download/v4/ui-bundle.zip
