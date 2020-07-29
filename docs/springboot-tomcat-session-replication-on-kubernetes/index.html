@@ -306,7 +306,7 @@ TCP/IP configuration:</p>
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Bean
 public Config hazelcastConfig() {
     Config config = new Config();
-    config.setProperty( "hazelcast.logging.type", "slf4j" );
+    config.setProperty("hazelcast.logging.type", "slf4j");
     config.setInstanceName("hazelcastInstance");
     JoinConfig joinConfig = config.getNetworkConfig().getJoin();
     joinConfig.getMulticastConfig().setEnabled(false);
