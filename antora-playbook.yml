@@ -12,40 +12,40 @@ content:
     - url: https://github.com/hazelcast-guides/hazelcast-embedded-springboot
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/hazelcast-hibernate-springboot
+    - url: https://github.com/hazelcast-guides/springboot-hibernate
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/hazelcast-hibernate-jcache-l2c
+    - url: https://github.com/hazelcast-guides/hibernate-jcache
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/hazelcast-istio
+    - url: https://github.com/hazelcast-guides/istio-embedded
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/hazelcast-embedded-micronaut
+    - url: https://github.com/hazelcast-guides/caching-micronaut
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/hazelcast-embedded-kubernetes
+    - url: https://github.com/hazelcast-guides/kubernetes-springboot-embedded
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/hazelcast-microprofile
+    - url: https://github.com/hazelcast-guides/hazelcast-embedded-microprofile
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/hazelcast-quarkus
+    - url: https://github.com/hazelcast-guides/hazelcast-client-quarkus
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/springboot-session-replication
+    - url: https://github.com/hazelcast-guides/springboot-webfilter-session-replication
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/springboot-caching
+    - url: https://github.com/hazelcast-guides/caching-springboot
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/hazelcast-embedded-ecs
+    - url: https://github.com/hazelcast-guides/ecs-embedded
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/striim-hazelcast-cdc
+    - url: https://github.com/hazelcast-guides/striiim-cdc
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/springboot-jcache
+    - url: https://github.com/hazelcast-guides/caching-springboot-jcache
       branches: master
       start_path: doc
     - url: https://github.com/hazelcast-guides/caching-micronaut-microservices-on-kubernetes
