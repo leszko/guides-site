@@ -2,6 +2,8 @@ site:
   title: Hazelcast Guides
   url: https://hazelcast.org
   start_page: home::index.adoc
+urls:
+  html_extension_style: indexify
 content:
   sources:
     - url: . # home
