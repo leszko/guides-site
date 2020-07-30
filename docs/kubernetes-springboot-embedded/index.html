@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Spring Boot Tomcat Session Replication using Hazelcast :: Hazelcast Guides</title>
-    <link rel="canonical" href="https://hazelcast.org/springboot-tomcat-session-replication/index.html">
+    <title>Getting Started with Embedded Hazelcast on Kubernetes :: Hazelcast Guides</title>
+    <link rel="canonical" href="https://hazelcast.org/kubernetes-springboot-embedded/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -60,13 +60,13 @@
 </header>
 <div class="body">
 
-<div class="nav-container" data-component="springboot-tomcat-session-replication" data-version="master">
+<div class="nav-container" data-component="kubernetes-springboot-embedded" data-version="master">
   <aside class="nav">
     <div class="panels">
 <!--
 <div class="nav-panel-explore is-active" data-panel="explore">
   <div class="context">
-    <span class="title">Spring Boot Tomcat Session Replication using Hazelcast</span>
+    <span class="title">Getting Started with Embedded Hazelcast on Kubernetes</span>
     <span class="version">master</span>
   </div>
   <ul class="components">
@@ -86,11 +86,11 @@
         </li>
       </ul>
     </li>
-    <li class="component">
+    <li class="component is-current">
       <span class="title">Getting Started with Embedded Hazelcast on Kubernetes</span>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../kubernetes-springboot-embedded/index.html">master</a>
+        <li class="version is-current is-latest">
+          <a href="index.html">master</a>
         </li>
       </ul>
     </li>
@@ -174,11 +174,11 @@
         </li>
       </ul>
     </li>
-    <li class="component is-current">
+    <li class="component">
       <span class="title">Spring Boot Tomcat Session Replication using Hazelcast</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="index.html">master</a>
+        <li class="version is-latest">
+          <a href="../springboot-tomcat-session-replication/index.html">master</a>
         </li>
       </ul>
     </li>
@@ -218,16 +218,19 @@ from nav.
 <!--
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/springboot-tomcat-session-replication/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/kubernetes-springboot-embedded/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
   -->
 </div>
   <div class="content">
 <article class="guide-content">
-<h1 class="page">Spring Boot Tomcat Session Replication using Hazelcast</h1>
+<h1 class="page">Getting Started with Embedded Hazelcast on Kubernetes</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can see the whole project <a href="https://github.com/hazelcast-guides/springboot-tomcat-session-replication">here.</a></p>
+<p>This guide will get you started to use Embedded Hazelcast on the Kubernetes environment.</p>
+</div>
+<div class="paragraph">
+<p>You can see the whole project <a href="https://github.com/hazelcast-guides/kubernetes-springboot-embedded">here.</a></p>
 </div>
 </div>
 </div>
@@ -235,13 +238,7 @@ from nav.
 <h2 id="_what_youll_learn"><a class="anchor" href="#_what_youll_learn"></a>What You’ll Learn</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://spring.io/projects/spring-boot">Spring Boot</a> is a framework that helps to build microservices easily. In the Java ecosystem, it&#8217;s one of the most preferred way of building microservices as of now. In a microservice architecture, there are different options to share data among the running services: one of them is caching, which Spring Boot leverages. It also provides session scope data access using built-in <a href="http://tomcat.apache.org/">Tomcat</a> HTTP sessions. But when running multiple microservices, it quickly becomes a hassle to replicate sessions and share their data across microservices.</p>
-</div>
-<div class="paragraph">
-<p>Imagine that you have a microservice which uses Tomcat HTTP sessions, and you would like to scale it horizontally. You can create multiple microservice instances, and use a load balancer to access them. However, each microservice instance will not have the same session data and the session won&#8217;t be consistent through microservices when the requests reach different instances. One option is to use sticky sessions but even if you use sticky sessions, you will lose some session data when a microservice instance is crashed/shut down. To prevent any data loss and provide consistency, session data should be replicated through microservice instances.</p>
-</div>
-<div class="paragraph">
-<p>There are multiple solutions exists for different environments and setups but in this blog post, we will find out how we can replicate sessions through Spring Boot microservices using Hazelcast with only minimal configuration settings. We will also show how it can be ran on Kubernetes environment through a simple demo application.</p>
+<p>In this guide, you&#8217;ll deploy an application with embedded Hazelcast into a Kubernetes cluster. Hazelcast instances from each application replica will all automatically discover themselves and form one consistent Hazelcast cluster. Thanks to <a href="https://github.com/hazelcast/hazelcast-kubernetes">Hazelcast Kubernetes discovery plugin</a>, there is no static configuration needed.</p>
 </div>
 </div>
 </div>
@@ -254,7 +251,13 @@ from nav.
 <p>~15 minutes</p>
 </li>
 <li>
-<p>A text editor or IDE</p>
+<p><a href="https://docs.docker.com/install/">Docker</a> (<a href="https://www.docker.com/products/docker-desktop">Docker for Desktop</a> is good enough)</p>
+</li>
+<li>
+<p><a href="https://kubernetes.io/">Kubernetes</a> cluster (<a href="https://www.docker.com/products/docker-desktop">Docker for Desktop</a> or <a href="https://minikube.sigs.k8s.io/docs/">Minikube</a> is good enough)</p>
+</li>
+<li>
+<p><a href="https://git-scm.com/">Git</a></p>
 </li>
 <li>
 <p>JDK 1.8+</p>
@@ -267,172 +270,196 @@ from nav.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_the_spring_boot_application_structure"><a class="anchor" href="#_the_spring_boot_application_structure"></a>The Spring Boot Application Structure</h2>
+<h2 id="_create_an_application"><a class="anchor" href="#_create_an_application"></a>Create an Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The application is a basic Spring Boot application having 3 endpoints:</p>
+<p>You can embed Hazelcast into any JVM-based application and use any web framework you want. As the sample for this guide, let&#8217;s use the application from <a href="https://github.com/hazelcast-guides/hazelcast-embedded-springboot">Getting Started with Hazelcast using Spring Boot</a> guide. To download it, execute the following command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>git clone https://github.com/hazelcast-guides/hazelcast-embedded-springboot.git</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_hazelcast_kubernetes_configuration"><a class="anchor" href="#_use_hazelcast_kubernetes_configuration"></a>Use Hazelcast Kubernetes Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Hazelcast provides the dedicated <a href="https://github.com/hazelcast/hazelcast-kubernetes">Hazelcast Kubernetes plugin</a> which allows to automatically form Hazelcast cluster in the Kubernetes environment. To enabled it, use the following Hazelcast configuration.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">hazelcast:
+  network:
+    join:
+      multicast:
+        enabled: false
+      kubernetes:
+        enabled: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To include this file inside your Spring Boot project, copy it into <code>hazelcast-embedded-springboot/src/resources/</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cp hazelcast.yaml hazelcast-embedded-springboot/src/main/resources/</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, you can build the project with the following command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>mvn package -f hazelcast-embedded-springboot/pom.xml</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As an output, the JAR file with our application should be created at <code>hazelcast-embedded-springboot/target/*.jar</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_containerize_the_application"><a class="anchor" href="#_containerize_the_application"></a>Containerize the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To containerize the application, you need to have Docker installed. Then, you can use the following <code>Dockerfile</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-dockerfile hljs" data-lang="dockerfile">FROM openjdk:8-jre-alpine
+COPY hazelcast-embedded-springboot/target/*.jar app.jar
+ENTRYPOINT ["java","-jar","app.jar"]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In order to build the Docker image, run the following command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>docker build -t hazelcastguides/hazelcast-embedded-kubernetes .</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you build the image by yourself, then you need to use your Docker Hub account instead of <code>hazelcastguides</code>. Then, you can push the image into your Docker Hub registry with the following command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>docker push hazelcastguides/hazelcast-embedded-kubernetes</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you want to use your image in the following steps, please also make sure your Docker Hub registry is public. However, for the purpose of this guide, you can also use the already built <code>hazelcastguides/hazelcast-embedded-kubernetes</code> Docker image.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configure_rbac"><a class="anchor" href="#_configure_rbac"></a>Configure RBAC</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://github.com/hazelcast/hazelcast-kubernetes">Hazelcast Kubernetes discovery plugin</a> makes calls to Kubernetes API to provide automatic member discovery. Therefore, it needs to have specific ClusterRole rules granted. You can apply the minimal RBAC configuration (for the <code>default</code> service account in the <code>default</code> namespace) with the following command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>kubectl apply -f https://raw.githubusercontent.com/hazelcast/hazelcast-kubernetes/master/rbac.yaml</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>/ is the homepage returning “Homepage” string only</p>
+<p>If you use service account other than <code>default</code> or namespace other than <code>default</code>, you need to modify <a href="https://raw.githubusercontent.com/hazelcast/hazelcast-kubernetes/master/rbac.yaml" class="bare">https://raw.githubusercontent.com/hazelcast/hazelcast-kubernetes/master/rbac.yaml</a></p>
 </li>
 <li>
-<p>/put is the page where key and value are saved to the current session as an attribute</p>
-</li>
-<li>
-<p>/get is the page where the values in the current session can be obtained by keys</p>
+<p>If your Kubernetes cluster does not use RBAC, you can skip the "Configure RBAC" step</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_session_replication_using_hazelcast_tomcat_session_manager"><a class="anchor" href="#_session_replication_using_hazelcast_tomcat_session_manager"></a>Session Replication using Hazelcast Tomcat Session Manager</h2>
+<h2 id="_deploy_the_application_to_kubernetes"><a class="anchor" href="#_deploy_the_application_to_kubernetes"></a>Deploy the Application to Kubernetes</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To configure session replication, let&#8217;s first add some dependencies to the pom.xml file:</p>
+<p>Assuming you have a running Kubernetes cluster, you can run the following commands to deploy your application and scale it to 2 replicas.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
-    &lt;artifactId&gt;hazelcast-tomcat85-sessionmanager&lt;/artifactId&gt;
-    &lt;version&gt;${hazelcast-tomcat-sessionmanager.version}&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
-    &lt;artifactId&gt;hazelcast&lt;/artifactId&gt;
-    &lt;version&gt;${hazelcast.version}&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
+<pre>kubectl create deployment my-app --image=hazelcastguides/hazelcast-embedded-kubernetes
+kubectl scale deployment my-app --replicas=2</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The first dependency is for Hazelcast Tomcat Session Manager, the second one is for Hazelcast IMDG itself.</p>
-</div>
-<div class="paragraph">
-<p>At this point, only some configuration beans are necessary to enable session replication:</p>
+<p>Now, if you look into created pods, you should see two replicas of your application.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Application.java
-
-@Bean
-public Config hazelcastConfig() {
-    Config config = new Config();
-    config.setProperty( "hazelcast.logging.type", "slf4j" );
-    config.setInstanceName("hazelcastInstance");
-    JoinConfig joinConfig = config.getNetworkConfig().getJoin();
-    joinConfig.getMulticastConfig().setEnabled(false);
-    joinConfig.getTcpIpConfig().setEnabled(true).addMember("localhost");
-    return config;
-}
-
-@Bean
-public HazelcastInstance hazelcastInstance(Config hazelcastConfig) {
-    return Hazelcast.getOrCreateHazelcastInstance(hazelcastConfig);
-}
-
-@Bean
-public WebServerFactoryCustomizer&lt;TomcatServletWebServerFactory&gt; customizeTomcat(HazelcastInstance hazelcastInstance) {
-    return (factory) -&gt; {
-        factory.addContextCustomizers(context -&gt; {
-            HazelcastSessionManager manager = new HazelcastSessionManager();
-            manager.setSticky(false);
-            manager.setHazelcastInstanceName("hazelcastInstance");
-            context.setManager(manager);
-        });
-    };
-}</code></pre>
+<pre>$ kubectl get pods
+NAME                      READY   STATUS    RESTARTS   AGE
+my-app-86df8b785f-4x9pj   1/1     Running   0          81s
+my-app-86df8b785f-h926d   1/1     Running   0          73s</pre>
 </div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The first bean creates a Hazelcast <code>Config</code> object to configure Hazelcast members. We enable the TCP/IP configuration.</p>
-</li>
-<li>
-<p>The second bean creates the Hazelcast member using the <code>hazelcastConfig</code> bean.</p>
-</li>
-<li>
-<p>The third one customizes Tomcat instance in Spring Boot to use Hazelcast Tomcat Session Manager.</p>
-</li>
-</ul>
 </div>
 <div class="paragraph">
-<p>Please note that the Hazelcast instance name for <code>HazelcastSessionManager</code> object and the instance name for Hazelcast config bean should be the same. Otherwise, <code>HazelcastSessionManager</code> wouldn&#8217;t access the running Hazelcast instance.</p>
+<p>In your application logs, you should see that embedded Hazelcast instances formed one cluster together.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ kubectl logs pod/my-app-86df8b785f-4x9pj
+...
+Members {size:2, ver:2} [
+        Member [10.24.1.10]:5701 - a7eb36b6-6d86-4d26-8eb6-47986e46d055 this
+        Member [10.24.2.6]:5701 - 9994d6c6-d271-4ddd-9aa9-1ac4767c1a73
+]</pre>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_running_the_sample_application"><a class="anchor" href="#_running_the_sample_application"></a>Running the Sample Application</h2>
+<h2 id="_testing_the_application"><a class="anchor" href="#_testing_the_application"></a>Testing the Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In the project directory, build the application:</p>
+<p>To test that the application works correctly, you can create a Kubernetes service which load balances the traffic to one of the application replicas.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ mvn clean package</code></pre>
+<pre>kubectl create service clusterip my-app --tcp=8080:8080</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Run the first instance of the application:</p>
+<p>Then, to be able to make calls from your local machine, you can use <code>port-forward</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ java -Dserver.port=8080 -jar target/springboot-tomcat-session-replication-0.1.0.jar</code></pre>
+<pre>kubectl port-forward service/my-app 8080:8080</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Open another terminal session and start the second application:</p>
+<p>Finally, you can make a REST calls to your application.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">java -Dserver.port=8081 -jar target/springboot-tomcat-session-replication-0.1.0.jar</code></pre>
+<pre>$ curl --data "key=key1&amp;value=hazelcast" "localhost:8080/put"
+{"value":"hazelcast"}
+$ curl "localhost:8080/get?key=key1"
+{"value":"hazelcast"}</pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Now, you can make calls to application endpoints to put data and get it back. Open another terminal session and send a request to <code>/put</code> endpoint. This will set the key value pair as a session attribute. Since session data is stored in Hazelcast distributed map, we can read this attribute from the other application instance using the same cookie:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8080/put?key=myKey&amp;value=hazelcast"
-curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key=myKey"</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For each command the output should be like the following:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>{"value":"hazelcast"}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Notice we have to use cookies when testing the application since the data is saved in HTTP sessions.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<h2 id="_tearing_down_the_deployment"><a class="anchor" href="#_tearing_down_the_deployment"></a>Tearing Down the Deployment</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We created a Spring Boot application that accesses session scope data. To be able to share the session data between multiple SpringBoot applications we used Hazelcast Tomcat Session Manager. When we put the key-value pair to our current session as an attribute at port 8080, we could get the attributes from the other application at port 8081.</p>
+<p>To delete all Kubernetes resources you created, run the following command.</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre>kubectl delete deployment/my-app service/my-app</pre>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="../hazelcast-embedded-springboot/index.html" class="page">Getting Started with Hazelcast using Spring Boot</a></p>
-</li>
-<li>
-<p><a href="../springboot-webfilter-session-replication/index.html" class="page">Filter Based Session Replication with Spring Boot and Hazelcast</a></p>
-</li>
-</ul>
 </div>
 </div>
 </div>

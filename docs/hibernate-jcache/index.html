@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Spring Boot Tomcat Session Replication using Hazelcast :: Hazelcast Guides</title>
-    <link rel="canonical" href="https://hazelcast.org/springboot-tomcat-session-replication/index.html">
+    <title>Jcache SPI for using Hazelcast as L2C for Hibernate :: Hazelcast Guides</title>
+    <link rel="canonical" href="https://hazelcast.org/hibernate-jcache/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -60,13 +60,13 @@
 </header>
 <div class="body">
 
-<div class="nav-container" data-component="springboot-tomcat-session-replication" data-version="master">
+<div class="nav-container" data-component="hibernate-jcache" data-version="master">
   <aside class="nav">
     <div class="panels">
 <!--
 <div class="nav-panel-explore is-active" data-panel="explore">
   <div class="context">
-    <span class="title">Spring Boot Tomcat Session Replication using Hazelcast</span>
+    <span class="title">Jcache SPI for using Hazelcast as L2C for Hibernate</span>
     <span class="version">master</span>
   </div>
   <ul class="components">
@@ -150,11 +150,11 @@
         </li>
       </ul>
     </li>
-    <li class="component">
+    <li class="component is-current">
       <span class="title">Jcache SPI for using Hazelcast as L2C for Hibernate</span>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../hibernate-jcache/index.html">master</a>
+        <li class="version is-current is-latest">
+          <a href="index.html">master</a>
         </li>
       </ul>
     </li>
@@ -174,11 +174,11 @@
         </li>
       </ul>
     </li>
-    <li class="component is-current">
+    <li class="component">
       <span class="title">Spring Boot Tomcat Session Replication using Hazelcast</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="index.html">master</a>
+        <li class="version is-latest">
+          <a href="../springboot-tomcat-session-replication/index.html">master</a>
         </li>
       </ul>
     </li>
@@ -218,16 +218,19 @@ from nav.
 <!--
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/springboot-tomcat-session-replication/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/hibernate-jcache/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
   -->
 </div>
   <div class="content">
 <article class="guide-content">
-<h1 class="page">Spring Boot Tomcat Session Replication using Hazelcast</h1>
+<h1 class="page">Jcache SPI for using Hazelcast as L2C for Hibernate</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can see the whole project <a href="https://github.com/hazelcast-guides/springboot-tomcat-session-replication">here.</a></p>
+<p>Configuration deatils to use JCache SPI for Hibernate Second Level Cache backed by Hazelcast IMDG.</p>
+</div>
+<div class="paragraph">
+<p>You can find the code samples for entitiy cache, collection cache, and query cache use cases <a href="https://github.com/hazelcast-guides/hibernate-jcache">here.</a></p>
 </div>
 </div>
 </div>
@@ -235,24 +238,30 @@ from nav.
 <h2 id="_what_youll_learn"><a class="anchor" href="#_what_youll_learn"></a>What You’ll Learn</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://spring.io/projects/spring-boot">Spring Boot</a> is a framework that helps to build microservices easily. In the Java ecosystem, it&#8217;s one of the most preferred way of building microservices as of now. In a microservice architecture, there are different options to share data among the running services: one of them is caching, which Spring Boot leverages. It also provides session scope data access using built-in <a href="http://tomcat.apache.org/">Tomcat</a> HTTP sessions. But when running multiple microservices, it quickly becomes a hassle to replicate sessions and share their data across microservices.</p>
+<p>You will be able to use Hibernate Second Level Cache using JCache SPI rather than <code>Hazelcast-hibernate</code> plugin.</p>
 </div>
 <div class="paragraph">
-<p>Imagine that you have a microservice which uses Tomcat HTTP sessions, and you would like to scale it horizontally. You can create multiple microservice instances, and use a load balancer to access them. However, each microservice instance will not have the same session data and the session won&#8217;t be consistent through microservices when the requests reach different instances. One option is to use sticky sessions but even if you use sticky sessions, you will lose some session data when a microservice instance is crashed/shut down. To prevent any data loss and provide consistency, session data should be replicated through microservice instances.</p>
+<p>This is an alternative approach of using <a href="https://github.com/hazelcast/hazelcast-hibernate">Hazelcast-hibernate</a> plugin to use Hazelcast as the caching provider for Hibernate. Note that the local region caches supported by the plugin are not available here. Unlike plugin - which stores query results locally, this approach supports query results to be stored in distributed map.</p>
 </div>
+<div class="sect2">
+<h3 id="_about_jcache"><a class="anchor" href="#_about_jcache"></a>About Jcache</h3>
 <div class="paragraph">
-<p>There are multiple solutions exists for different environments and setups but in this blog post, we will find out how we can replicate sessions through Spring Boot microservices using Hazelcast with only minimal configuration settings. We will also show how it can be ran on Kubernetes environment through a simple demo application.</p>
+<p><a href="https://www.javadoc.io/doc/javax.cache/cache-api/1.1.1">JCache (JSR 107)</a> is a standard caching API for Java.
+It provides an API for applications to be able to create and work with in-memory cache of objects. Hibernate has
+started to support Jcache implementations for L2C with version 5.2. Using only a CachingProvider implementation,
+L2C can be used for SessionFactory objects in Hibernate.</p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Only the configuration details are explained here hence no prerequisites exists. However, in order to give <a href="https://github.com/hazelcast-guides/hibernate-jcache">code samples</a> a try, make sure you have:</p>
+</div>
 <div class="ulist">
 <ul>
-<li>
-<p>~15 minutes</p>
-</li>
 <li>
 <p>A text editor or IDE</p>
 </li>
@@ -267,149 +276,175 @@ from nav.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_the_spring_boot_application_structure"><a class="anchor" href="#_the_spring_boot_application_structure"></a>The Spring Boot Application Structure</h2>
+<h2 id="_setting_dependencies"><a class="anchor" href="#_setting_dependencies"></a>Setting Dependencies</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The application is a basic Spring Boot application having 3 endpoints:</p>
+<p>In <code>pom.xml</code>, include <code>hibernate-jcache</code> dependency having the same version with <code>hibernate-core</code> in your project:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>/ is the homepage returning “Homepage” string only</p>
-</li>
-<li>
-<p>/put is the page where key and value are saved to the current session as an attribute</p>
-</li>
-<li>
-<p>/get is the page where the values in the current session can be obtained by keys</p>
-</li>
-</ul>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.hibernate&lt;/groupId&gt;
+    &lt;artifactId&gt;hibernate-jcache&lt;/artifactId&gt;
+    &lt;version&gt;${version.hibernate-core}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_session_replication_using_hazelcast_tomcat_session_manager"><a class="anchor" href="#_session_replication_using_hazelcast_tomcat_session_manager"></a>Session Replication using Hazelcast Tomcat Session Manager</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>To configure session replication, let&#8217;s first add some dependencies to the pom.xml file:</p>
+<p>Also include <code>hazelcast</code> dependency:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
-    &lt;artifactId&gt;hazelcast-tomcat85-sessionmanager&lt;/artifactId&gt;
-    &lt;version&gt;${hazelcast-tomcat-sessionmanager.version}&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
     &lt;artifactId&gt;hazelcast&lt;/artifactId&gt;
-    &lt;version&gt;${hazelcast.version}&lt;/version&gt;
+    &lt;version&gt;${version.hazelcast}&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>The first dependency is for Hazelcast Tomcat Session Manager, the second one is for Hazelcast IMDG itself.</p>
-</div>
-<div class="paragraph">
-<p>At this point, only some configuration beans are necessary to enable session replication:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Application.java
-
-@Bean
-public Config hazelcastConfig() {
-    Config config = new Config();
-    config.setProperty( "hazelcast.logging.type", "slf4j" );
-    config.setInstanceName("hazelcastInstance");
-    JoinConfig joinConfig = config.getNetworkConfig().getJoin();
-    joinConfig.getMulticastConfig().setEnabled(false);
-    joinConfig.getTcpIpConfig().setEnabled(true).addMember("localhost");
-    return config;
-}
-
-@Bean
-public HazelcastInstance hazelcastInstance(Config hazelcastConfig) {
-    return Hazelcast.getOrCreateHazelcastInstance(hazelcastConfig);
-}
-
-@Bean
-public WebServerFactoryCustomizer&lt;TomcatServletWebServerFactory&gt; customizeTomcat(HazelcastInstance hazelcastInstance) {
-    return (factory) -&gt; {
-        factory.addContextCustomizers(context -&gt; {
-            HazelcastSessionManager manager = new HazelcastSessionManager();
-            manager.setSticky(false);
-            manager.setHazelcastInstanceName("hazelcastInstance");
-            context.setManager(manager);
-        });
-    };
-}</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The first bean creates a Hazelcast <code>Config</code> object to configure Hazelcast members. We enable the TCP/IP configuration.</p>
-</li>
-<li>
-<p>The second bean creates the Hazelcast member using the <code>hazelcastConfig</code> bean.</p>
-</li>
-<li>
-<p>The third one customizes Tomcat instance in Spring Boot to use Hazelcast Tomcat Session Manager.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Please note that the Hazelcast instance name for <code>HazelcastSessionManager</code> object and the instance name for Hazelcast config bean should be the same. Otherwise, <code>HazelcastSessionManager</code> wouldn&#8217;t access the running Hazelcast instance.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_running_the_sample_application"><a class="anchor" href="#_running_the_sample_application"></a>Running the Sample Application</h2>
+<h2 id="_confiuguring_hibernate_jcache_region_factory"><a class="anchor" href="#_confiuguring_hibernate_jcache_region_factory"></a>Confiuguring Hibernate JCache Region Factory</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In the project directory, build the application:</p>
+<p>Now tell Hibernate to use JCache region factory. For Hibernate 5.2.x:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ mvn clean package</code></pre>
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;property name="hibernate.cache.region.factory_class"&gt;
+	org.hibernate.cache.jcache.JCacheRegionFactory
+&lt;/property&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Run the first instance of the application:</p>
+<p>For Hibernate 5.3.0 and higher:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ java -Dserver.port=8080 -jar target/springboot-tomcat-session-replication-0.1.0.jar</code></pre>
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;property name="hibernate.cache.region.factory_class"&gt;
+	jcache
+&lt;/property&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_confiuguring_cache_provider"><a class="anchor" href="#_confiuguring_cache_provider"></a>Confiuguring Cache Provider</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can use either Hazelcast Embedded or Client/Server mode as the cache provider.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><code>CLIENT</code>: You can connect to an existing Hazelcast cluster and store the cache data there. Then you can scale the cluster
+up or down independent from your app. Data resides in L2C can be available even a SessionFactory is closed
+or application is shut down. So this makes L2C available across SessionFactories and Hibernate applications.</p>
+</div>
+<div class="paragraph">
+<p><code>EMBEDDED</code>: A new Hazelcast instance is created along with your application. This instance cannot be scaled up or
+down unless you run or shutdown another Hibernate application with the same server config. Latency of communicating to
+Hazelcast Cluster will be less than the client mode.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can learn more about the differences between client and embedded topologies <a href="https://docs.hazelcast.org/docs/latest/manual/html-single/#hazelcast-topology">here.</a></p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="paragraph">
-<p>Open another terminal session and start the second application:</p>
+<p>Now configure the provider in Hibernate configuration. To use native client:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">java -Dserver.port=8081 -jar target/springboot-tomcat-session-replication-0.1.0.jar</code></pre>
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;property name="hibernate.javax.cache.provider"&gt;
+	com.hazelcast.client.cache.impl.HazelcastClientCachingProvider
+&lt;/property&gt;
+&lt;property name="hibernate.javax.cache.uri"&gt;
+	hazelcast-client.xml
+&lt;/property&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Now, you can make calls to application endpoints to put data and get it back. Open another terminal session and send a request to <code>/put</code> endpoint. This will set the key value pair as a session attribute. Since session data is stored in Hazelcast distributed map, we can read this attribute from the other application instance using the same cookie:</p>
+<p>To use embedded Hazelcast instance:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8080/put?key=myKey&amp;value=hazelcast"
-curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key=myKey"</code></pre>
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;property name="hibernate.javax.cache.provider"&gt;
+	com.hazelcast.cache.impl.HazelcastServerCachingProvider
+&lt;/property&gt;
+&lt;property name="hibernate.javax.cache.uri"&gt;
+	hazelcast.xml
+&lt;/property&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>For each command the output should be like the following:</p>
+<p>You can configure your Hazelcast instances over <code>hazelcast.xml</code> or <code>hazelcast-client.xml</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cache_configuration"><a class="anchor" href="#_cache_configuration"></a>Cache Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Configure the cache via <code>hazelcast.xml</code>, <code>&lt;cache&gt;</code> part:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>{"value":"hazelcast"}</pre>
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;cache name="custom.cache.region.name"&gt;
+    &lt;statistics-enabled&gt;true&lt;/statistics-enabled&gt;
+    &lt;management-enabled&gt;true&lt;/management-enabled&gt;
+    &lt;eviction size="10000" max-size-policy="ENTRY_COUNT" eviction-policy="LRU" /&gt;
+&lt;/cache&gt;</code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To track the cache statistics on Hazelcast Management Center, you have to enable the statistics
+(disabled by default) for the cache configuration of Hazelcast instance.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If client mode is used, cache configurations must be set on the server configuration (<code>hazelcast.xml</code>), not on the client side (<code>hazelcast-client.xml</code>).
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you do not define a specific region name, the default cache configuration is going to be
+used for this region, hence will not be visible on Hazelcast Management Center. To apply
+a config to all regions, you can use wildcard for <code>name</code> property (e.g. <code>name="*"</code>).
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>Notice we have to use cookies when testing the application since the data is saved in HTTP sessions.</p>
+<p>For other cache configurtion properties, see cache configuration section on the documentation
+<a href="https://docs.hazelcast.org/docs/latest/manual/html-single/index.html#icache-configuration">here</a>.
+Eviction size and policy properties might be useful for this case.</p>
 </div>
 </div>
 </div>
@@ -417,7 +452,7 @@ curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key
 <h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We created a Spring Boot application that accesses session scope data. To be able to share the session data between multiple SpringBoot applications we used Hazelcast Tomcat Session Manager. When we put the key-value pair to our current session as an attribute at port 8080, we could get the attributes from the other application at port 8081.</p>
+<p>You have configured your Hibernate app to use second-level cache using JCache SPI backed by Hazelcast. Now you can see Hibernate storing fetched objects from database in the second-level cache and serving them if available. You can find the code samples for entitiy cache, collection cache, and query cache use cases <a href="https://github.com/hazelcast-guides/hibernate-jcache">here.</a></p>
 </div>
 </div>
 </div>
@@ -427,10 +462,13 @@ curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key
 <div class="ulist">
 <ul>
 <li>
-<p><a href="../hazelcast-embedded-springboot/index.html" class="page">Getting Started with Hazelcast using Spring Boot</a></p>
+<p><a href="https://github.com/hazelcast/hazelcast-hibernate">Hazelcast Hibernate Second Level Cache Plugin</a></p>
 </li>
 <li>
-<p><a href="../springboot-webfilter-session-replication/index.html" class="page">Filter Based Session Replication with Spring Boot and Hazelcast</a></p>
+<p><a href="../springboot-hibernate/index.html" class="page">Hazelcast L2C for Hibernate in SpringBoot</a></p>
+</li>
+<li>
+<p><a href="../hazelcast-embedded-springboot/index.html" class="page">Hazelcast in SpringBoot</a></p>
 </li>
 </ul>
 </div>

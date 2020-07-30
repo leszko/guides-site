@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Spring Boot Tomcat Session Replication using Hazelcast :: Hazelcast Guides</title>
-    <link rel="canonical" href="https://hazelcast.org/springboot-tomcat-session-replication/index.html">
+    <title>Getting Started with Hazelcast and Hibernate Second-Level Cache :: Hazelcast Guides</title>
+    <link rel="canonical" href="https://hazelcast.org/springboot-hibernate/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -60,13 +60,13 @@
 </header>
 <div class="body">
 
-<div class="nav-container" data-component="springboot-tomcat-session-replication" data-version="master">
+<div class="nav-container" data-component="springboot-hibernate" data-version="master">
   <aside class="nav">
     <div class="panels">
 <!--
 <div class="nav-panel-explore is-active" data-panel="explore">
   <div class="context">
-    <span class="title">Spring Boot Tomcat Session Replication using Hazelcast</span>
+    <span class="title">Getting Started with Hazelcast and Hibernate Second-Level Cache</span>
     <span class="version">master</span>
   </div>
   <ul class="components">
@@ -94,11 +94,11 @@
         </li>
       </ul>
     </li>
-    <li class="component">
+    <li class="component is-current">
       <span class="title">Getting Started with Hazelcast and Hibernate Second-Level Cache</span>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../springboot-hibernate/index.html">master</a>
+        <li class="version is-current is-latest">
+          <a href="index.html">master</a>
         </li>
       </ul>
     </li>
@@ -174,11 +174,11 @@
         </li>
       </ul>
     </li>
-    <li class="component is-current">
+    <li class="component">
       <span class="title">Spring Boot Tomcat Session Replication using Hazelcast</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="index.html">master</a>
+        <li class="version is-latest">
+          <a href="../springboot-tomcat-session-replication/index.html">master</a>
         </li>
       </ul>
     </li>
@@ -218,16 +218,17 @@ from nav.
 <!--
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/springboot-tomcat-session-replication/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/springboot-hibernate/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
   -->
 </div>
   <div class="content">
 <article class="guide-content">
-<h1 class="page">Spring Boot Tomcat Session Replication using Hazelcast</h1>
+<h1 class="page">Getting Started with Hazelcast and Hibernate Second-Level Cache</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can see the whole project <a href="https://github.com/hazelcast-guides/springboot-tomcat-session-replication">here.</a></p>
+<p>This guide will get you started to use Hazelcast in a Spring Boot application.
+You can see the code sample <a href="https://github.com/hazelcast-guides/springboot-hibernate">here</a>.</p>
 </div>
 </div>
 </div>
@@ -235,181 +236,102 @@ from nav.
 <h2 id="_what_youll_learn"><a class="anchor" href="#_what_youll_learn"></a>What You’ll Learn</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://spring.io/projects/spring-boot">Spring Boot</a> is a framework that helps to build microservices easily. In the Java ecosystem, it&#8217;s one of the most preferred way of building microservices as of now. In a microservice architecture, there are different options to share data among the running services: one of them is caching, which Spring Boot leverages. It also provides session scope data access using built-in <a href="http://tomcat.apache.org/">Tomcat</a> HTTP sessions. But when running multiple microservices, it quickly becomes a hassle to replicate sessions and share their data across microservices.</p>
-</div>
-<div class="paragraph">
-<p>Imagine that you have a microservice which uses Tomcat HTTP sessions, and you would like to scale it horizontally. You can create multiple microservice instances, and use a load balancer to access them. However, each microservice instance will not have the same session data and the session won&#8217;t be consistent through microservices when the requests reach different instances. One option is to use sticky sessions but even if you use sticky sessions, you will lose some session data when a microservice instance is crashed/shut down. To prevent any data loss and provide consistency, session data should be replicated through microservice instances.</p>
-</div>
-<div class="paragraph">
-<p>There are multiple solutions exists for different environments and setups but in this blog post, we will find out how we can replicate sessions through Spring Boot microservices using Hazelcast with only minimal configuration settings. We will also show how it can be ran on Kubernetes environment through a simple demo application.</p>
+<p>In this guide, you&#8217;ll see how to quickly set up a Spring Boot application using Hazelcast as Hibernate&#8217;s second-level cache.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>~15 minutes</p>
-</li>
-<li>
-<p>A text editor or IDE</p>
-</li>
-<li>
-<p>JDK 1.8+</p>
-</li>
-<li>
-<p>Apache Maven 3.2+</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_the_spring_boot_application_structure"><a class="anchor" href="#_the_spring_boot_application_structure"></a>The Spring Boot Application Structure</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>The application is a basic Spring Boot application having 3 endpoints:</p>
+<p>In order to run the code sample, make sure to have PostgresSQL database accessible and configured properly in the <code>application.properties</code> file.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>/ is the homepage returning “Homepage” string only</p>
-</li>
-<li>
-<p>/put is the page where key and value are saved to the current session as an attribute</p>
-</li>
-<li>
-<p>/get is the page where the values in the current session can be obtained by keys</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_session_replication_using_hazelcast_tomcat_session_manager"><a class="anchor" href="#_session_replication_using_hazelcast_tomcat_session_manager"></a>Session Replication using Hazelcast Tomcat Session Manager</h2>
-<div class="sectionbody">
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
 <div class="paragraph">
-<p>To configure session replication, let&#8217;s first add some dependencies to the pom.xml file:</p>
+<p>You can spin-up a PostgreSQL instance easily using Docker:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
-    &lt;artifactId&gt;hazelcast-tomcat85-sessionmanager&lt;/artifactId&gt;
-    &lt;version&gt;${hazelcast-tomcat-sessionmanager.version}&lt;/version&gt;
-&lt;/dependency&gt;
+<pre>docker run --name 2lc-postgres --publish 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres:13</pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration"><a class="anchor" href="#_configuration"></a>Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to enable JPA, you need to add a dedicated Spring Boot Starter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In order to configure Hazelcast as second-level cache provider, you need to add two dependencies:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+	&lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
+	&lt;artifactId&gt;hazelcast-hibernate53&lt;/artifactId&gt;
+	&lt;version&gt;2.0.0&lt;/version&gt;
+&lt;/dependency
+
 &lt;dependency&gt;
-    &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
-    &lt;artifactId&gt;hazelcast&lt;/artifactId&gt;
-    &lt;version&gt;${hazelcast.version}&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
+	&lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
+	&lt;artifactId&gt;hazelcast&lt;/artifactId&gt;
+	&lt;version&gt;4.0.2&lt;/version&gt;
+&lt;/dependency&gt;</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The first dependency is for Hazelcast Tomcat Session Manager, the second one is for Hazelcast IMDG itself.</p>
+<p>And then, we need to configure Hazelcast IMDG local member setting by adding a standard <code>hazelcast.xml</code> file into <code>src/main/resources</code>.</p>
 </div>
 <div class="paragraph">
-<p>At this point, only some configuration beans are necessary to enable session replication:</p>
+<p>Keep in mind that this might trigger the autoconfiguration of another Hazelcast member so you might want to disable Hazelcast autoconfiguration:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Application.java
-
-@Bean
-public Config hazelcastConfig() {
-    Config config = new Config();
-    config.setProperty( "hazelcast.logging.type", "slf4j" );
-    config.setInstanceName("hazelcastInstance");
-    JoinConfig joinConfig = config.getNetworkConfig().getJoin();
-    joinConfig.getMulticastConfig().setEnabled(false);
-    joinConfig.getTcpIpConfig().setEnabled(true).addMember("localhost");
-    return config;
-}
-
-@Bean
-public HazelcastInstance hazelcastInstance(Config hazelcastConfig) {
-    return Hazelcast.getOrCreateHazelcastInstance(hazelcastConfig);
-}
-
-@Bean
-public WebServerFactoryCustomizer&lt;TomcatServletWebServerFactory&gt; customizeTomcat(HazelcastInstance hazelcastInstance) {
-    return (factory) -&gt; {
-        factory.addContextCustomizers(context -&gt; {
-            HazelcastSessionManager manager = new HazelcastSessionManager();
-            manager.setSticky(false);
-            manager.setHazelcastInstanceName("hazelcastInstance");
-            context.setManager(manager);
-        });
-    };
-}</code></pre>
+<pre>@SpringBootApplication(exclude = HazelcastAutoConfiguration.class)</pre>
 </div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The first bean creates a Hazelcast <code>Config</code> object to configure Hazelcast members. We enable the TCP/IP configuration.</p>
-</li>
-<li>
-<p>The second bean creates the Hazelcast member using the <code>hazelcastConfig</code> bean.</p>
-</li>
-<li>
-<p>The third one customizes Tomcat instance in Spring Boot to use Hazelcast Tomcat Session Manager.</p>
-</li>
-</ul>
 </div>
 <div class="paragraph">
-<p>Please note that the Hazelcast instance name for <code>HazelcastSessionManager</code> object and the instance name for Hazelcast config bean should be the same. Otherwise, <code>HazelcastSessionManager</code> wouldn&#8217;t access the running Hazelcast instance.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_running_the_sample_application"><a class="anchor" href="#_running_the_sample_application"></a>Running the Sample Application</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>In the project directory, build the application:</p>
+<p>The last step involves turning on second-level cache by adding two properties into <code>application.properties</code> file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ mvn clean package</code></pre>
+<pre>spring.jpa.properties.hibernate.cache.use_second_level_cache=true
+spring.jpa.properties.hibernate.cache.region.factory_class=com.hazelcast.hibernate.HazelcastCacheRegionFactory</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Run the first instance of the application:</p>
+<p>And now, once you annotate your entity as <code>@Cacheable</code>, it will be cached in Hazelcast member:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ java -Dserver.port=8080 -jar target/springboot-tomcat-session-replication-0.1.0.jar</code></pre>
+<pre>@Entity
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class Book { ... }</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Open another terminal session and start the second application:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">java -Dserver.port=8081 -jar target/springboot-tomcat-session-replication-0.1.0.jar</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Now, you can make calls to application endpoints to put data and get it back. Open another terminal session and send a request to <code>/put</code> endpoint. This will set the key value pair as a session attribute. Since session data is stored in Hazelcast distributed map, we can read this attribute from the other application instance using the same cookie:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8080/put?key=myKey&amp;value=hazelcast"
-curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key=myKey"</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For each command the output should be like the following:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>{"value":"hazelcast"}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Notice we have to use cookies when testing the application since the data is saved in HTTP sessions.</p>
+<p>When you run the code sample, an object will be saved to database and then will be fetched. In the meantime the object will be stored in the second level cache. <code>SecondLevelCacheVisualizer</code> will print out the L2C content in every 10 seconds. The object will be evicted from the L2C after 30 seconds, which is the configured time-to-live seconds in <code>hazelcast.xml</code>.</p>
 </div>
 </div>
 </div>
@@ -417,7 +339,7 @@ curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key
 <h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We created a Spring Boot application that accesses session scope data. To be able to share the session data between multiple SpringBoot applications we used Hazelcast Tomcat Session Manager. When we put the key-value pair to our current session as an attribute at port 8080, we could get the attributes from the other application at port 8081.</p>
+<p>In this guide, we bootstrapped a Spring Boot application which uses Hazelcast as Hibernate&#8217;s second-level cache.</p>
 </div>
 </div>
 </div>
@@ -427,10 +349,13 @@ curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key
 <div class="ulist">
 <ul>
 <li>
-<p><a href="../hazelcast-embedded-springboot/index.html" class="page">Getting Started with Hazelcast using Spring Boot</a></p>
+<p><a href="../hibernate-jcache/index.html" class="page">Using JCache for Hibernate L2C</a></p>
 </li>
 <li>
-<p><a href="../springboot-webfilter-session-replication/index.html" class="page">Filter Based Session Replication with Spring Boot and Hazelcast</a></p>
+<p><a href="../hazelcast-embedded-springboot/index.html" class="page">Hazelcast in SpringBoot</a></p>
+</li>
+<li>
+<p><a href="../kubernetes-springboot-embedded/index.html" class="page">Hazelcast with SpringBoot in Kubernetes</a></p>
 </li>
 </ul>
 </div>

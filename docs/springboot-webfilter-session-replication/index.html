@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Getting Started with Hazelcast using Spring Boot :: Hazelcast Guides</title>
-    <link rel="canonical" href="https://hazelcast.org/hazelcast-embedded-springboot/index.html">
+    <title>Session Replication with Spring Boot and Hazelcast :: Hazelcast Guides</title>
+    <link rel="canonical" href="https://hazelcast.org/springboot-webfilter-session-replication/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -60,13 +60,13 @@
 </header>
 <div class="body">
 
-<div class="nav-container" data-component="hazelcast-embedded-springboot" data-version="master">
+<div class="nav-container" data-component="springboot-webfilter-session-replication" data-version="master">
   <aside class="nav">
     <div class="panels">
 <!--
 <div class="nav-panel-explore is-active" data-panel="explore">
   <div class="context">
-    <span class="title">Getting Started with Hazelcast using Spring Boot</span>
+    <span class="title">Session Replication with Spring Boot and Hazelcast</span>
     <span class="version">master</span>
   </div>
   <ul class="components">
@@ -118,11 +118,11 @@
         </li>
       </ul>
     </li>
-    <li class="component is-current">
+    <li class="component">
       <span class="title">Getting Started with Hazelcast using Spring Boot</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="index.html">master</a>
+        <li class="version is-latest">
+          <a href="../hazelcast-embedded-springboot/index.html">master</a>
         </li>
       </ul>
     </li>
@@ -166,11 +166,11 @@
         </li>
       </ul>
     </li>
-    <li class="component">
+    <li class="component is-current">
       <span class="title">Session Replication with Spring Boot and Hazelcast</span>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../springboot-webfilter-session-replication/index.html">master</a>
+        <li class="version is-current is-latest">
+          <a href="index.html">master</a>
         </li>
       </ul>
     </li>
@@ -218,19 +218,19 @@ from nav.
 <!--
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/hazelcast-embedded-springboot/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/springboot-webfilter-session-replication/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
   -->
 </div>
   <div class="content">
 <article class="guide-content">
-<h1 class="page">Getting Started with Hazelcast using Spring Boot</h1>
+<h1 class="page">Session Replication with Spring Boot and Hazelcast</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This guide will get you started to use Hazelcast in a Spring Boot application.</p>
+<p>This guide will get you started to use Hazelcast as for the Spring Boot session replication.</p>
 </div>
 <div class="paragraph">
-<p>You can see the whole project <a href="https://github.com/hazelcast-guides/hazelcast-embedded-springboot">here.</a></p>
+<p>You can see the whole project <a href="https://github.com/hazelcast-guides/springboot-webfilter-session-replication">here.</a></p>
 </div>
 </div>
 </div>
@@ -238,10 +238,7 @@ from nav.
 <h2 id="_what_youll_learn"><a class="anchor" href="#_what_youll_learn"></a>What You’ll Learn</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this guide, you will learn how to use Hazelcast IMDG within Spring Boot microservices.</p>
-</div>
-<div class="paragraph">
-<p>The Spring Boot application contains two REST controllers which helps you to put data and read it back. The application initializes a single Hazelcast IMDG member instance which is used to keep the data. When you run the application multiple times, Hazelcast IMDG instances build a cluster and share the data.</p>
+<p>In this guide, you&#8217;ll deploy a Spring Boot application which uses Hazelcast for sessions replication.</p>
 </div>
 </div>
 </div>
@@ -251,10 +248,7 @@ from nav.
 <div class="ulist">
 <ul>
 <li>
-<p>~15 minutes</p>
-</li>
-<li>
-<p>A text editor or IDE</p>
+<p>~5 minutes</p>
 </li>
 <li>
 <p>JDK 1.8+</p>
@@ -267,127 +261,131 @@ from nav.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_the_spring_boot_application_structure"><a class="anchor" href="#_the_spring_boot_application_structure"></a>The Spring Boot Application Structure</h2>
+<h2 id="_spring_boot_application"><a class="anchor" href="#_spring_boot_application"></a>Spring Boot Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The application is a basic Spring Boot app having 2 endpoints defined in <code>CommandController</code>:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>/put</code> is the page where key and values can be put on a Hazelcast distributed map. It takes <code>key</code> and <code>value</code> as query parameters and returns the entry in JSON format.</p>
-</li>
-<li>
-<p><code>/get</code> is the page where the values in the Hazelcast distributed map can be obtained by keys. It takes <code>key</code> as query parameter and returns the found entry in JSON format.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_using_hazelcast_in_the_application"><a class="anchor" href="#_using_hazelcast_in_the_application"></a>Using Hazelcast in the Application</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>If Hazelcast is on the classpath and a suitable configuration is found, Spring Boot auto-configures a HazelcastInstance that you can inject in your application. In the <code>pom.xml</code> file, you can see Hazelcast is added as a dependency:</p>
+<p>In our case, let&#8217;s have a simple web application with the following controller and HTML template.</p>
 </div>
 <div class="listingblock">
+<div class="title">WebController.java</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
-    &lt;artifactId&gt;hazelcast-all&lt;/artifactId&gt;
-    &lt;version&gt;4.0.2&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Hazelcast configuration (<code>hazelcast.yaml</code>) is placed under <code>src/main/resources/</code> folder. Now, we only need to auto-wire <code>HazelcastInstance</code> bean in <code>CommandController</code> and use it to access to Hazelcast data structures:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package guides.hazelcast.springboot;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Controller
+@RequestMapping("/")
+public class WebController {
 
-import com.hazelcast.core.HazelcastInstance;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+    @RequestMapping(value = "/")
+    public String index(HttpSession httpSession) {
+        Integer hits = (Integer) httpSession.getAttribute("hits");
+        if (hits == null) {
+            hits = 0;
+        }
+        httpSession.setAttribute("hits", ++hits);
 
-import java.util.concurrent.ConcurrentMap;
-
-@RestController
-public class CommandController {
-    @Autowired
-    private HazelcastInstance hazelcastInstance;
-
-    private ConcurrentMap&lt;String,String&gt; retrieveMap() {
-        return hazelcastInstance.getMap("map");
-    }
-
-    @PostMapping("/put")
-    public CommandResponse put(@RequestParam(value = "key") String key, @RequestParam(value = "value") String value) {
-        retrieveMap().put(key, value);
-        return new CommandResponse(value);
-    }
-
-    @GetMapping("/get")
-    public CommandResponse get(@RequestParam(value = "key") String key) {
-        String value = retrieveMap().get(key);
-        return new CommandResponse(value);
+        return "index";
     }
 }</code></pre>
 </div>
 </div>
+<div class="listingblock">
+<div class="title">index.html</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-html hljs" data-lang="html">&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
+	&lt;body&gt;
+		&lt;h3&gt;Session Id&lt;/h3&gt;
+		&lt;p th:text="${#httpSession.id}"/&gt;
+		&lt;h3&gt;Hits&lt;/h3&gt;
+		&lt;p th:text="${#httpSession.getAttribute('hits')}"/&gt;
+	&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When you start the application and open the browser at <a href="http://localhost:8080" class="bare">http://localhost:8080</a>, you should see an information with the current session ID and the number of hits (number of times you refreshed the browser).</p>
+</div>
+<div class="paragraph">
+<p>Now, the problem is that if you start two instances of your application, then the counts for each of them would be completely separate. That is because each Spring Boot application replica stores it&#8217;s sessions separately. What&#8217;s more, if one of the application crashes, the session data is lost. That is what we want to change with the use of Hazelcast.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_running_the_sample_application"><a class="anchor" href="#_running_the_sample_application"></a>Running the Sample Application</h2>
+<h2 id="_using_hazelcast_for_sessions_replication"><a class="anchor" href="#_using_hazelcast_for_sessions_replication"></a>Using Hazelcast for Sessions Replication</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Run the application using Maven on a terminal:</p>
+<p>To use Hazelcast for session replication in your Spring Boot application, you need to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>add <code>hazelcast-all</code> dependency</p>
+</li>
+<li>
+<p>add Hazelcast configuration</p>
+</li>
+<li>
+<p>add <code>WebFilter</code> configuration bean</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here are the added parts in <code>pom.xml</code> and <code>Application.java</code>.</p>
 </div>
 <div class="listingblock">
+<div class="title">pom.xml</div>
 <div class="content">
-<pre>mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dserver.port=8080"</pre>
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
+    &lt;artifactId&gt;hazelcast-all&lt;/artifactId&gt;
+    &lt;version&gt;4.0.2&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Bean
+public Config config() {
+    return new Config();
+}
+
+@Bean
+public WebFilter webFilter(HazelcastInstance hazelcastInstance) {
+
+    Properties properties = new Properties();
+    properties.put("instance-name", hazelcastInstance.getName());
+    properties.put("sticky-session", "false");
+
+    return new WebFilter(properties);
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Then rerun the application in another terminal. But this time, note that you need to set a different value for the <code>server.port</code>.</p>
+<p>This way, we defined Hazelcast configuration and used the embedded Hazelcast instance to enable session replication.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_starting_the_application"><a class="anchor" href="#_starting_the_application"></a>Starting the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To start two replicas of the application, run the following commands.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dserver.port=8081"</pre>
+<pre>mvn spring-boot:run
+SERVER_PORT=8081 mvn spring-boot:run</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>After both application instances initialized, you should see the Hazelcast cluster formation in the output similar below:</p>
+<p>You should see in the logs that both embedded Hazelcast instances formed one cluster.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre>Members {size:2, ver:2} [
-	Member [192.168.1.64]:5701 - 520aec3f-58a6-4fcb-a3c7-498dcf37d8ff
-	Member [192.168.1.64]:5702 - 5c03e467-d457-4847-b49a-745a335db557 this
+        Member [172.24.148.110]:5702 - e01c5b53-4dd8-492c-974c-7f4a7e195fb8 this
+        Member [172.24.148.110]:5701 - 27305639-b75c-4f41-84e5-6cd87995511b
 ]</pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Now, you can issue HTTP requests to put and get data back. Firstly, run the following command to put the data into Hazelcast distributed map:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>curl --data "key=key1&amp;value=hazelcast" "localhost:8080/put"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You will see the value in the output. Then run the command below to get the data back. Please note that the call is made to the other application instance:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>curl "localhost:8081/get?key=key1"</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Again, you will see the value in the output since the data is distributed among Hazelcast cluster instances and can be accessed from any of them.</p>
 </div>
 </div>
 </div>
@@ -395,51 +393,31 @@ public class CommandController {
 <h2 id="_testing_the_application"><a class="anchor" href="#_testing_the_application"></a>Testing the Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To run the integration tests, run the following command in terminal:</p>
+<p>Open the browser at <a href="http://localhost:8080" class="bare">http://localhost:8080</a>. You should see the following content.</p>
 </div>
-<div class="listingblock">
+<div class="imageblock">
 <div class="content">
-<pre>mvn verify -Ptests</pre>
+<img src="_images/application-1.png" alt="application 1">
 </div>
 </div>
 <div class="paragraph">
-<p>If the tests pass, you’ll see a similar output to the following:</p>
+<p>Now, open the browser at <a href="http://localhost:8081" class="bare">http://localhost:8081</a>. You should see that the hit has increased.</p>
 </div>
-<div class="listingblock">
+<div class="imageblock">
 <div class="content">
-<pre>[INFO] Results:
-[INFO]
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
-[INFO]
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS</pre>
+<img src="_images/application-2.png" alt="application 2">
 </div>
+</div>
+<div class="paragraph">
+<p>That means that both applications share the same session data store.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<h2 id="_whats_more"><a class="anchor" href="#_whats_more"></a>What&#8217;s more?</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this guide, we developed a simple application that stores the data in a Hazelcast instance. We started two application instances, and they formed a Hazelcast cluster. Since the data was shared among Hazelcast cluster instances, we could access it from both application instances.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>See Also</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="../kubernetes-springboot-embedded/index.html" class="page">Hazelcast with SpringBoot in Kubernetes</a></p>
-</li>
-<li>
-<p><a href="../caching-micronaut/index.html" class="page">Hazelcast in Micronaut</a></p>
-</li>
-<li>
-<p><a href="../hazelcast-client-quarkus/index.html" class="page">Hazelcast Client for Quarkus</a></p>
-</li>
-</ul>
+<p>Spring Boot is really well integrated with Hazelcast. You can check the other guide <a href="../caching-springboot/index.html" class="page">Caching with Spring Boot and Hazelcast</a>. You can also set up your Hazelcast in the client-server topology instead of using embedded Hazelcast.</p>
 </div>
 </div>
 </div>

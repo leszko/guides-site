@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Spring Boot Tomcat Session Replication using Hazelcast :: Hazelcast Guides</title>
-    <link rel="canonical" href="https://hazelcast.org/springboot-tomcat-session-replication/index.html">
+    <title>Getting Started with Hazelcast using Micronaut :: Hazelcast Guides</title>
+    <link rel="canonical" href="https://hazelcast.org/caching-micronaut/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -60,13 +60,13 @@
 </header>
 <div class="body">
 
-<div class="nav-container" data-component="springboot-tomcat-session-replication" data-version="master">
+<div class="nav-container" data-component="caching-micronaut" data-version="master">
   <aside class="nav">
     <div class="panels">
 <!--
 <div class="nav-panel-explore is-active" data-panel="explore">
   <div class="context">
-    <span class="title">Spring Boot Tomcat Session Replication using Hazelcast</span>
+    <span class="title">Getting Started with Hazelcast using Micronaut</span>
     <span class="version">master</span>
   </div>
   <ul class="components">
@@ -102,11 +102,11 @@
         </li>
       </ul>
     </li>
-    <li class="component">
+    <li class="component is-current">
       <span class="title">Getting Started with Hazelcast using Micronaut</span>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../caching-micronaut/index.html">master</a>
+        <li class="version is-current is-latest">
+          <a href="index.html">master</a>
         </li>
       </ul>
     </li>
@@ -174,11 +174,11 @@
         </li>
       </ul>
     </li>
-    <li class="component is-current">
+    <li class="component">
       <span class="title">Spring Boot Tomcat Session Replication using Hazelcast</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="index.html">master</a>
+        <li class="version is-latest">
+          <a href="../springboot-tomcat-session-replication/index.html">master</a>
         </li>
       </ul>
     </li>
@@ -218,16 +218,19 @@ from nav.
 <!--
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/springboot-tomcat-session-replication/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/caching-micronaut/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
   -->
 </div>
   <div class="content">
 <article class="guide-content">
-<h1 class="page">Spring Boot Tomcat Session Replication using Hazelcast</h1>
+<h1 class="page">Getting Started with Hazelcast using Micronaut</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can see the whole project <a href="https://github.com/hazelcast-guides/springboot-tomcat-session-replication">here.</a></p>
+<p>This guide will get you started to use Hazelcast in a Micronaut application.</p>
+</div>
+<div class="paragraph">
+<p>You can see the whole project <a href="https://github.com/hazelcast-guides/caching-micronaut">here.</a></p>
 </div>
 </div>
 </div>
@@ -235,13 +238,10 @@ from nav.
 <h2 id="_what_youll_learn"><a class="anchor" href="#_what_youll_learn"></a>What You’ll Learn</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://spring.io/projects/spring-boot">Spring Boot</a> is a framework that helps to build microservices easily. In the Java ecosystem, it&#8217;s one of the most preferred way of building microservices as of now. In a microservice architecture, there are different options to share data among the running services: one of them is caching, which Spring Boot leverages. It also provides session scope data access using built-in <a href="http://tomcat.apache.org/">Tomcat</a> HTTP sessions. But when running multiple microservices, it quickly becomes a hassle to replicate sessions and share their data across microservices.</p>
+<p>In this guide, you will learn how to use Hazelcast IMDG within Micronaut microservices.</p>
 </div>
 <div class="paragraph">
-<p>Imagine that you have a microservice which uses Tomcat HTTP sessions, and you would like to scale it horizontally. You can create multiple microservice instances, and use a load balancer to access them. However, each microservice instance will not have the same session data and the session won&#8217;t be consistent through microservices when the requests reach different instances. One option is to use sticky sessions but even if you use sticky sessions, you will lose some session data when a microservice instance is crashed/shut down. To prevent any data loss and provide consistency, session data should be replicated through microservice instances.</p>
-</div>
-<div class="paragraph">
-<p>There are multiple solutions exists for different environments and setups but in this blog post, we will find out how we can replicate sessions through Spring Boot microservices using Hazelcast with only minimal configuration settings. We will also show how it can be ran on Kubernetes environment through a simple demo application.</p>
+<p>The Micronaut application contains two REST controllers which helps you to put data and read it back. The application initializes a single Hazelcast IMDG member instance which is used to keep the data. When you run the application multiple times, Hazelcast IMDG instances build a cluster and share the data.</p>
 </div>
 </div>
 </div>
@@ -254,23 +254,20 @@ from nav.
 <p>~15 minutes</p>
 </li>
 <li>
-<p>A text editor or IDE</p>
-</li>
-<li>
-<p>JDK 1.8+</p>
-</li>
-<li>
 <p>Apache Maven 3.2+</p>
+</li>
+<li>
+<p>Jdk 1.8+</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_the_spring_boot_application_structure"><a class="anchor" href="#_the_spring_boot_application_structure"></a>The Spring Boot Application Structure</h2>
+<h2 id="_the_micronaut_application_structure"><a class="anchor" href="#_the_micronaut_application_structure"></a>The Micronaut Application Structure</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The application is a basic Spring Boot application having 3 endpoints:</p>
+<p>The application in the initial directory is a basic Micronaut app having 3 endpoints:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -278,89 +275,63 @@ from nav.
 <p>/ is the homepage returning “Homepage” string only</p>
 </li>
 <li>
-<p>/put is the page where key and value are saved to the current session as an attribute</p>
+<p>/put is the mapping where key and value is saved to a local map through @CachePut annotation.</p>
 </li>
 <li>
-<p>/get is the page where the values in the current session can be obtained by keys</p>
+<p>/get is the mapping where the values in the local map can be obtained by keys through @Cacheable annotation.</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_session_replication_using_hazelcast_tomcat_session_manager"><a class="anchor" href="#_session_replication_using_hazelcast_tomcat_session_manager"></a>Session Replication using Hazelcast Tomcat Session Manager</h2>
+<h2 id="_using_hazelcast_in_the_application"><a class="anchor" href="#_using_hazelcast_in_the_application"></a>Using Hazelcast in the Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To configure session replication, let&#8217;s first add some dependencies to the pom.xml file:</p>
+<p>To configure caching with Hazelcast, firstly we will add some dependencies to our pom.xml file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
-    &lt;artifactId&gt;hazelcast-tomcat85-sessionmanager&lt;/artifactId&gt;
-    &lt;version&gt;${hazelcast-tomcat-sessionmanager.version}&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
-    &lt;artifactId&gt;hazelcast&lt;/artifactId&gt;
-    &lt;version&gt;${hazelcast.version}&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">        &lt;dependency&gt;
+            &lt;groupId&gt;io.micronaut.cache&lt;/groupId&gt;
+            &lt;artifactId&gt;micronaut-cache-hazelcast&lt;/artifactId&gt;
+            &lt;version&gt;${micronaut-cache-hazelcast.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
+            &lt;artifactId&gt;hazelcast&lt;/artifactId&gt;
+            &lt;version&gt;${hazelcast.version}&lt;/version&gt;
+        &lt;/dependency&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The first dependency is for Hazelcast Tomcat Session Manager, the second one is for Hazelcast IMDG itself.</p>
+<p>The first dependency is for Micronaut Cache for Hazelcast, the second one is for Hazelcast IMDG itself,</p>
 </div>
 <div class="paragraph">
-<p>At this point, only some configuration beans are necessary to enable session replication:</p>
+<p>Now, we just need to add a configuration bean to enable Hazelcast:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Application.java
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Singleton
+public class HazelcastAdditionalSettings
+        implements BeanCreatedEventListener&lt;HazelcastMemberConfiguration&gt; {
 
-@Bean
-public Config hazelcastConfig() {
-    Config config = new Config();
-    config.setProperty( "hazelcast.logging.type", "slf4j" );
-    config.setInstanceName("hazelcastInstance");
-    JoinConfig joinConfig = config.getNetworkConfig().getJoin();
-    joinConfig.getMulticastConfig().setEnabled(false);
-    joinConfig.getTcpIpConfig().setEnabled(true).addMember("localhost");
-    return config;
-}
-
-@Bean
-public HazelcastInstance hazelcastInstance(Config hazelcastConfig) {
-    return Hazelcast.getOrCreateHazelcastInstance(hazelcastConfig);
-}
-
-@Bean
-public WebServerFactoryCustomizer&lt;TomcatServletWebServerFactory&gt; customizeTomcat(HazelcastInstance hazelcastInstance) {
-    return (factory) -&gt; {
-        factory.addContextCustomizers(context -&gt; {
-            HazelcastSessionManager manager = new HazelcastSessionManager();
-            manager.setSticky(false);
-            manager.setHazelcastInstanceName("hazelcastInstance");
-            context.setManager(manager);
-        });
-    };
+    public HazelcastMemberConfiguration onCreated(BeanCreatedEvent&lt;HazelcastMemberConfiguration&gt; event) {
+        HazelcastMemberConfiguration configuration = event.getBean();
+        configuration.setClusterName("micronaut-cluster");
+        JoinConfig joinConfig = configuration.getNetworkConfig().getJoin();
+        joinConfig.getMulticastConfig().setEnabled(false);
+        joinConfig.getTcpIpConfig().setEnabled(true).addMember("localhost");
+        return configuration;
+    }
 }</code></pre>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>The first bean creates a Hazelcast <code>Config</code> object to configure Hazelcast members. We enable the TCP/IP configuration.</p>
-</li>
-<li>
-<p>The second bean creates the Hazelcast member using the <code>hazelcastConfig</code> bean.</p>
-</li>
-<li>
-<p>The third one customizes Tomcat instance in Spring Boot to use Hazelcast Tomcat Session Manager.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>This bean creates a HazelcastAdditionalSettings object to configure Hazelcast members. We enable TCP/IP config for discovery.</p>
 </div>
 <div class="paragraph">
-<p>Please note that the Hazelcast instance name for <code>HazelcastSessionManager</code> object and the instance name for Hazelcast config bean should be the same. Otherwise, <code>HazelcastSessionManager</code> wouldn&#8217;t access the running Hazelcast instance.</p>
+<p>Our application with Hazelcast caching is now ready to go. We do not need to change anything else because we are already using Micronaut caching annotations in CommandService class.</p>
 </div>
 </div>
 </div>
@@ -368,48 +339,61 @@ public WebServerFactoryCustomizer&lt;TomcatServletWebServerFactory&gt; customize
 <h2 id="_running_the_sample_application"><a class="anchor" href="#_running_the_sample_application"></a>Running the Sample Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In the project directory, build the application:</p>
+<p>Build the application by using maven, make sure you are in the project directory</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ mvn clean package</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">mvn clean package</code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The very first request to each application instance will take a bit longer time to respond since the first request causes Hazelcast instance to be started.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>Run the first instance of the application:</p>
+<p>Run the application by typing</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ java -Dserver.port=8080 -jar target/springboot-tomcat-session-replication-0.1.0.jar</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">java -jar target/hazelcast-embedded-micronaut-0.1.0.jar 8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Open another terminal session and start the second application:</p>
+<p>Open another terminal and rerun the application by typing</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">java -Dserver.port=8081 -jar target/springboot-tomcat-session-replication-0.1.0.jar</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">java -jar target/hazelcast-embedded-micronaut-0.1.0.jar 8081</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Now, you can make calls to application endpoints to put data and get it back. Open another terminal session and send a request to <code>/put</code> endpoint. This will set the key value pair as a session attribute. Since session data is stored in Hazelcast distributed map, we can read this attribute from the other application instance using the same cookie:</p>
+<p>Now, you can make calls to application endpoints to put data and get it back. Firstly, open another terminal and run the following command to put the data into Hazelcast distributed map:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8080/put?key=myKey&amp;value=hazelcast"
-curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key=myKey"</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">curl  "localhost:8080/put?key=key1&amp;value=hazelcast"</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>For each command the output should be like the following:</p>
+<p>You will see the value in the output. Then run the command below to get the data back. Please note that the call is made to the other application instance:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>{"value":"hazelcast"}</pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">curl "localhost:8081/get?key=key1"</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Notice we have to use cookies when testing the application since the data is saved in HTTP sessions.</p>
+<p>Again, you will see the value in the output since the data is distributed among Hazelcast cluster instances and can be accessed from any of them.</p>
 </div>
 </div>
 </div>
@@ -417,7 +401,7 @@ curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key
 <h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We created a Spring Boot application that accesses session scope data. To be able to share the session data between multiple SpringBoot applications we used Hazelcast Tomcat Session Manager. When we put the key-value pair to our current session as an attribute at port 8080, we could get the attributes from the other application at port 8081.</p>
+<p>In this guide, we developed a simple application that stores the data in a Hazelcast instance. We started two application instances, and they formed a Hazelcast cluster. Since the data was shared among Hazelcast cluster instances, we could access it from both application instances.</p>
 </div>
 </div>
 </div>
@@ -427,10 +411,10 @@ curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key
 <div class="ulist">
 <ul>
 <li>
-<p><a href="../hazelcast-embedded-springboot/index.html" class="page">Getting Started with Hazelcast using Spring Boot</a></p>
+<p><a href="../kubernetes-springboot-embedded/index.html" class="page">Hazelcast with SpringBoot in Kubernetes</a></p>
 </li>
 <li>
-<p><a href="../springboot-webfilter-session-replication/index.html" class="page">Filter Based Session Replication with Spring Boot and Hazelcast</a></p>
+<p><a href="../hazelcast-client-quarkus/index.html" class="page">Hazelcast Client for Quarkus</a></p>
 </li>
 </ul>
 </div>

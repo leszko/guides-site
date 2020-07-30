@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Spring Boot Tomcat Session Replication using Hazelcast :: Hazelcast Guides</title>
-    <link rel="canonical" href="https://hazelcast.org/springboot-tomcat-session-replication/index.html">
+    <title>Getting Started with Hazelcast using Quarkus :: Hazelcast Guides</title>
+    <link rel="canonical" href="https://hazelcast.org/hazelcast-client-quarkus/index.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -60,13 +60,13 @@
 </header>
 <div class="body">
 
-<div class="nav-container" data-component="springboot-tomcat-session-replication" data-version="master">
+<div class="nav-container" data-component="hazelcast-client-quarkus" data-version="master">
   <aside class="nav">
     <div class="panels">
 <!--
 <div class="nav-panel-explore is-active" data-panel="explore">
   <div class="context">
-    <span class="title">Spring Boot Tomcat Session Replication using Hazelcast</span>
+    <span class="title">Hazelcast Client for Quarkus</span>
     <span class="version">master</span>
   </div>
   <ul class="components">
@@ -126,11 +126,11 @@
         </li>
       </ul>
     </li>
-    <li class="component">
+    <li class="component is-current">
       <span class="title">Hazelcast Client for Quarkus</span>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../hazelcast-client-quarkus/index.html">master</a>
+        <li class="version is-current is-latest">
+          <a href="index.html">master</a>
         </li>
       </ul>
     </li>
@@ -174,11 +174,11 @@
         </li>
       </ul>
     </li>
-    <li class="component is-current">
+    <li class="component">
       <span class="title">Spring Boot Tomcat Session Replication using Hazelcast</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="index.html">master</a>
+        <li class="version is-latest">
+          <a href="../springboot-tomcat-session-replication/index.html">master</a>
         </li>
       </ul>
     </li>
@@ -218,16 +218,19 @@ from nav.
 <!--
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/springboot-tomcat-session-replication/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/hazelcast-guides/hazelcast-client-quarkus/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
   -->
 </div>
   <div class="content">
 <article class="guide-content">
-<h1 class="page">Spring Boot Tomcat Session Replication using Hazelcast</h1>
+<h1 class="page">Getting Started with Hazelcast using Quarkus</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can see the whole project <a href="https://github.com/hazelcast-guides/springboot-tomcat-session-replication">here.</a></p>
+<p>Hazelcast is the fastest cloud-native distributed cache solution in the OSS world. It&#8217;s elastic and a natural fit for cloud-ready architectures. Quarkus tailors your application for GraalVM and HotSpot. It has amazingly fast boot time, incredibly low RSS memory (not just heap size!) offering near-instant scale-up.</p>
+</div>
+<div class="paragraph">
+<p>You can see the whole project <a href="https://github.com/hazelcast-guides/hazelcast-client-quarkus/">here.</a></p>
 </div>
 </div>
 </div>
@@ -235,13 +238,7 @@ from nav.
 <h2 id="_what_youll_learn"><a class="anchor" href="#_what_youll_learn"></a>What You’ll Learn</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://spring.io/projects/spring-boot">Spring Boot</a> is a framework that helps to build microservices easily. In the Java ecosystem, it&#8217;s one of the most preferred way of building microservices as of now. In a microservice architecture, there are different options to share data among the running services: one of them is caching, which Spring Boot leverages. It also provides session scope data access using built-in <a href="http://tomcat.apache.org/">Tomcat</a> HTTP sessions. But when running multiple microservices, it quickly becomes a hassle to replicate sessions and share their data across microservices.</p>
-</div>
-<div class="paragraph">
-<p>Imagine that you have a microservice which uses Tomcat HTTP sessions, and you would like to scale it horizontally. You can create multiple microservice instances, and use a load balancer to access them. However, each microservice instance will not have the same session data and the session won&#8217;t be consistent through microservices when the requests reach different instances. One option is to use sticky sessions but even if you use sticky sessions, you will lose some session data when a microservice instance is crashed/shut down. To prevent any data loss and provide consistency, session data should be replicated through microservice instances.</p>
-</div>
-<div class="paragraph">
-<p>There are multiple solutions exists for different environments and setups but in this blog post, we will find out how we can replicate sessions through Spring Boot microservices using Hazelcast with only minimal configuration settings. We will also show how it can be ran on Kubernetes environment through a simple demo application.</p>
+<p>In this guide, you&#8217;ll see how to quickly set up a native-image-ready Quarkus application using Hazelcast Client.</p>
 </div>
 </div>
 </div>
@@ -251,13 +248,10 @@ from nav.
 <div class="ulist">
 <ul>
 <li>
-<p>~15 minutes</p>
+<p>~10 mins</p>
 </li>
 <li>
-<p>A text editor or IDE</p>
-</li>
-<li>
-<p>JDK 1.8+</p>
+<p>Docker and Docker Compose</p>
 </li>
 <li>
 <p>Apache Maven 3.2+</p>
@@ -267,149 +261,175 @@ from nav.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_the_spring_boot_application_structure"><a class="anchor" href="#_the_spring_boot_application_structure"></a>The Spring Boot Application Structure</h2>
+<h2 id="_the_quarkus_application_structure"><a class="anchor" href="#_the_quarkus_application_structure"></a>The Quarkus Application Structure</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The application is a basic Spring Boot application having 3 endpoints:</p>
+<p>This guide showcases how to set up a basic Quarkus application to work with Hazelcast Client-Server topology.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>/ is the homepage returning “Homepage” string only</p>
-</li>
-<li>
-<p>/put is the page where key and value are saved to the current session as an attribute</p>
-</li>
-<li>
-<p>/get is the page where the values in the current session can be obtained by keys</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>The <code>put</code> operation places a key-value pair to Hazelcast and <code>get</code> operation returns the value along with the Container Name.</p>
+</div>
+<div class="paragraph">
+<p>The Container Name is present to make it clear from which instance the value is returned from.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_session_replication_using_hazelcast_tomcat_session_manager"><a class="anchor" href="#_session_replication_using_hazelcast_tomcat_session_manager"></a>Session Replication using Hazelcast Tomcat Session Manager</h2>
+<h2 id="_using_hazelcast_client_in_the_application"><a class="anchor" href="#_using_hazelcast_client_in_the_application"></a>Using Hazelcast Client in the Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To configure session replication, let&#8217;s first add some dependencies to the pom.xml file:</p>
+<p>In <code>pom.xml</code> we add <em>quarkus-hazelcast-client</em> dependency as follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
-    &lt;artifactId&gt;hazelcast-tomcat85-sessionmanager&lt;/artifactId&gt;
-    &lt;version&gt;${hazelcast-tomcat-sessionmanager.version}&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;com.hazelcast&lt;/groupId&gt;
-    &lt;artifactId&gt;hazelcast&lt;/artifactId&gt;
-    &lt;version&gt;${hazelcast.version}&lt;/version&gt;
+    &lt;artifactId&gt;quarkus-hazelcast-client&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The first dependency is for Hazelcast Tomcat Session Manager, the second one is for Hazelcast IMDG itself.</p>
-</div>
-<div class="paragraph">
-<p>At this point, only some configuration beans are necessary to enable session replication:</p>
+<p>And in the code we need to configure the client as follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Application.java
-
-@Bean
-public Config hazelcastConfig() {
-    Config config = new Config();
-    config.setProperty( "hazelcast.logging.type", "slf4j" );
-    config.setInstanceName("hazelcastInstance");
-    JoinConfig joinConfig = config.getNetworkConfig().getJoin();
-    joinConfig.getMulticastConfig().setEnabled(false);
-    joinConfig.getTcpIpConfig().setEnabled(true).addMember("localhost");
-    return config;
-}
-
-@Bean
-public HazelcastInstance hazelcastInstance(Config hazelcastConfig) {
-    return Hazelcast.getOrCreateHazelcastInstance(hazelcastConfig);
-}
-
-@Bean
-public WebServerFactoryCustomizer&lt;TomcatServletWebServerFactory&gt; customizeTomcat(HazelcastInstance hazelcastInstance) {
-    return (factory) -&gt; {
-        factory.addContextCustomizers(context -&gt; {
-            HazelcastSessionManager manager = new HazelcastSessionManager();
-            manager.setSticky(false);
-            manager.setHazelcastInstanceName("hazelcastInstance");
-            context.setManager(manager);
-        });
-    };
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@ApplicationScoped
+public class HazelcastClientConfig {
+    @Produces
+    HazelcastInstance createInstance() {
+        ClientConfig clientConfig = new ClientConfig();
+        String[] members = System.getenv("HAZELCAST_IP").split(",");
+        clientConfig.getNetworkConfig().addAddress(members);
+        return HazelcastClient.newHazelcastClient(clientConfig);
+    }
 }</code></pre>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>The first bean creates a Hazelcast <code>Config</code> object to configure Hazelcast members. We enable the TCP/IP configuration.</p>
-</li>
-<li>
-<p>The second bean creates the Hazelcast member using the <code>hazelcastConfig</code> bean.</p>
-</li>
-<li>
-<p>The third one customizes Tomcat instance in Spring Boot to use Hazelcast Tomcat Session Manager.</p>
-</li>
-</ul>
-</div>
 <div class="paragraph">
-<p>Please note that the Hazelcast instance name for <code>HazelcastSessionManager</code> object and the instance name for Hazelcast config bean should be the same. Otherwise, <code>HazelcastSessionManager</code> wouldn&#8217;t access the running Hazelcast instance.</p>
+<p>The environment variable <code>HAZELCAST_IP</code> in the above code is set in the <code>docker-compose.yml</code> file. This file creates a Hazelcast cluster with 2 members and 2 Quarkus applications.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">...
+  quarkus-service1:
+    container_name: quarkus-service1
+    image: hazelcast-guides/hazelcast-quarkus-native
+    environment:
+      - CONTAINER_NAME=hazelcast-quarkus_1
+      - HAZELCAST_IP=member1,member2
+    ports:
+...</code></pre>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_running_the_sample_application"><a class="anchor" href="#_running_the_sample_application"></a>Running the Sample Application</h2>
+<h2 id="_building_quarkus_application"><a class="anchor" href="#_building_quarkus_application"></a>Building Quarkus Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In the project directory, build the application:</p>
+<p>To build a standalone jar, you can use a standard Maven command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ mvn clean package</code></pre>
+<pre class="highlightjs highlight"><code>mvn package</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Run the first instance of the application:</p>
+<p>Now, we&#8217;re ready to build the Docker image:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ java -Dserver.port=8080 -jar target/springboot-tomcat-session-replication-0.1.0.jar</code></pre>
+<pre class="highlightjs highlight"><code>docker build . -f Dockerfile -t hazelcast-guides/hazelcast-quarkus-native</code></pre>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_building_quarkus_native_executable"><a class="anchor" href="#_building_quarkus_native_executable"></a>Building Quarkus Native Executable</h3>
 <div class="paragraph">
-<p>Open another terminal session and start the second application:</p>
+<p>To build a native executable, you can use the dedicated native Maven profile:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">java -Dserver.port=8081 -jar target/springboot-tomcat-session-replication-0.1.0.jar</code></pre>
+<pre class="highlightjs highlight"><code>mvn clean package -Pnative -Dnative-image.docker-build=true</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Now, you can make calls to application endpoints to put data and get it back. Open another terminal session and send a request to <code>/put</code> endpoint. This will set the key value pair as a session attribute. Since session data is stored in Hazelcast distributed map, we can read this attribute from the other application instance using the same cookie:</p>
+<p>The <code>-Dnative-image.docker-build=true</code> build parameter runs the native compilation inside a special GraalVM-enabled Docker container provided by Quarkus. However, if you wish, you can use your local GraalVM setup.</p>
+</div>
+<div class="paragraph">
+<p>Now, we&#8217;re ready to build the Docker image (based on a dedicated native-friendly Dockerfile):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8080/put?key=myKey&amp;value=hazelcast"
-curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key=myKey"</code></pre>
+<pre class="highlightjs highlight"><code>docker build . -f Dockerfile.native -t hazelcast-guides/hazelcast-quarkus-native</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>For each command the output should be like the following:</p>
+<p>However, keep in mind that native mode doesn&#8217;t support all features out-of-the-box (<a href="https://github.com/oracle/graal/blob/master/substratevm/LIMITATIONS.md" class="bare">https://github.com/oracle/graal/blob/master/substratevm/LIMITATIONS.md</a>).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_running_the_application"><a class="anchor" href="#_running_the_application"></a>Running the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We&#8217;re ready to launch the application consisting of a Hazelcast cluster and two Quarkus applications:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>{"value":"hazelcast"}</pre>
+<pre class="highlightjs highlight"><code>docker-compose up -d</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Notice we have to use cookies when testing the application since the data is saved in HTTP sessions.</p>
+<p>We can verify that two members joined the Hazelcast cluster:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ docker logs member1 -f
+...
+ Members {size:2, ver:2} [
+	Member [172.30.0.2]:5701 - b123eadd-e3e6-4605-867d-1f1f40a2eaf2 this
+	Member [172.30.0.3]:5701 - c31026b6-e01d-45f7-b3b2-3d0338d67ef2
+]
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can verify that Quarkus applications started properly (notice the startup time of 14ms!):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ docker logs quarkus-service1 -f
+2019-12-13 23:40:27,298 INFO  [io.quarkus] (main) hazelcast-quarkus-guide 1.0-SNAPSHOT (running on Quarkus 1.0.0.Final) started in 0.014s. Listening on: http://0.0.0.0:8080
+2019-12-13 23:40:27,299 INFO  [io.quarkus] (main) Profile prod activated.
+2019-12-13 23:40:27,299 INFO  [io.quarkus] (main) Installed features: [cdi, resteasy, resteasy-jackson, resteasy-jsonb]...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Send a put operation to the first application running on port 8081:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ curl -X POST "localhost:8081/hazelcast/put?key=key_1&amp;value=value_1";echo;
+{"containerName":"quarkus-service2","value":"value_1"}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Get the value from application running on 8080 and verify that it&#8217;s the same value as put operation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ curl "localhost:8080/hazelcast/get?key=key_1";echo;
+{"containerName":"quarkus-service1","value":"value_1"}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Clean Up</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ docker-compose down</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -417,7 +437,10 @@ curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key
 <h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We created a Spring Boot application that accesses session scope data. To be able to share the session data between multiple SpringBoot applications we used Hazelcast Tomcat Session Manager. When we put the key-value pair to our current session as an attribute at port 8080, we could get the attributes from the other application at port 8081.</p>
+<p>In this guide, we bootstrapped a native-image-ready Quarkus application which uses Hazelcast Client.</p>
+</div>
+<div class="paragraph">
+<p>We started two application instances, and they formed a Hazelcast cluster. Since the data was shared among all Hazelcast cluster instances, we could access it from both application instances.</p>
 </div>
 </div>
 </div>
@@ -427,10 +450,13 @@ curl --cookie cookies.txt --cookie-jar cookies.txt -s -L "localhost:8081/get?key
 <div class="ulist">
 <ul>
 <li>
-<p><a href="../hazelcast-embedded-springboot/index.html" class="page">Getting Started with Hazelcast using Spring Boot</a></p>
+<p><a href="../hazelcast-embedded-springboot/index.html" class="page">Hazelcast in SpringBoot</a></p>
 </li>
 <li>
-<p><a href="../springboot-webfilter-session-replication/index.html" class="page">Filter Based Session Replication with Spring Boot and Hazelcast</a></p>
+<p><a href="../hazelcast-embedded-microprofile/index.html" class="page">Hazelcast in Microprofile</a></p>
+</li>
+<li>
+<p><a href="../caching-micronaut/index.html" class="page">Hazelcast in Micronaut</a></p>
 </li>
 </ul>
 </div>
