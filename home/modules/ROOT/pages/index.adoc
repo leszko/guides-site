@@ -117,6 +117,6 @@ Jcache SPI for using Hazelcast as L2C for Hibernate.
 
 
 [.guide]
-=== xref:striiim-cdc:ROOT:index.adoc[Oracle CDC and Hazelcast via Striim]
+=== xref:striim-cdc:ROOT:index.adoc[Oracle CDC and Hazelcast via Striim]
 
 Load data from Oracle CDC to Hazelcast via Striim.

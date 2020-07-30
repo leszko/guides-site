@@ -42,7 +42,7 @@ content:
     - url: https://github.com/hazelcast-guides/ecs-embedded
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/striiim-cdc
+    - url: https://github.com/hazelcast-guides/striim-cdc
       branches: master
       start_path: doc
     - url: https://github.com/hazelcast-guides/caching-springboot-jcache
