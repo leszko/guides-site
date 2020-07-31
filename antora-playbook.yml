@@ -26,7 +26,7 @@ content:
     - url: https://github.com/hazelcast-guides/caching-micronaut
       branches: master
       start_path: doc
-    - url: https://github.com/hazelcast-guides/kubernetes-springboot-embedded
+    - url: https://github.com/hazelcast-guides/kubernetes-embedded
       branches: master
       start_path: doc
     - url: https://github.com/hazelcast-guides/hazelcast-embedded-microprofile
